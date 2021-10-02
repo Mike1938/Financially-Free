@@ -34,10 +34,12 @@
             <canvas id="expensePi"></canvas>
         </div>
         <div id="insertToPi">
-            <p>Monthly Expenses</p>
+            <p>Monthly Expenses: <span id="totalExpenses"></span></p>
             <form action="/" id="expenseForm">
+                <p class="errorChecking"></p>
+                <p class="errorChecking"></p>
                 <input required id="expenseTitle" type="text" placeholder="Example: Car Payment">
-                <input required id="expenseCost" type="number" placeholder="Example: 300">
+                <input required id="expenseCost" type="text" placeholder="Example: 300">
                 <button>Add</button>
             </form>
         </div>
