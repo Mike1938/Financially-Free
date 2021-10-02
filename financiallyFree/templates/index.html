@@ -27,12 +27,22 @@
         </div>
     </section>
     <section id="aboutApp">
-        <div>
-
+        <div id="headerBox">
+            <h2>Track your expenses to freedom</h2>
         </div>
-        <div>
-
+        <div id="piChart">
+            <canvas id="expensePi"></canvas>
         </div>
+        <div id="insertToPi">
+            <p>Monthly Expenses</p>
+            <form action="/" id="expenseForm">
+                <input required id="expenseTitle" type="text" placeholder="Example: Car Payment">
+                <input required id="expenseCost" type="number" placeholder="Example: 300">
+                <button>Add</button>
+            </form>
+        </div>
+
     </section>
+    <script src="{{url_for('static', filename='./js/landing.js')}}"></script>
 </body>
 </html>

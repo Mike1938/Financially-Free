@@ -1,6 +1,8 @@
+*{
+    font-family: 'Courier New', Courier, monospace;
+}
 body, html{
     margin: 0;
-    font-family: 'Courier New', Courier, monospace;
     height: 100%;
 }
 nav{
@@ -43,13 +45,58 @@ nav{
     width: 50%;
 }
 #aboutApp{
-    height: 100%;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    justify-content: center;
-    align-items: center;
-    height: 100%;
     background-image: url("../images/lpage2.svg");
     background-repeat: no-repeat;
     background-size: cover;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-items: center;
+    align-items: center;
+    height: 100%;
+}
+
+#headerBox{
+    background-color: #fff;
+    width: 60%;
+    margin: 0 auto;
+    padding: 10px;
+    border-radius: 25px;
+    font-size: 1.5rem;
+    grid-column: 1/3;
+    /* margin-bottom: 100px; */
+}
+#headerBox h2{
+    color: #255121;
+    text-align: center;
+    
+}
+
+#expensePi{
+    height: 70vh !important;
+    width: 40vw !important;
+}
+#insertToPi{
+    width: 60%;
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 25px;
+}
+#insertToPi p{
+    font-size: 1.2rem;
+    color: #255121;
+}
+#insertToPi form{
+    display: grid;
+    gap: 20px;
+    grid-template-columns: 1fr;
+}
+
+#insertToPi input{
+    height: 40px;
+    border-radius: 10px;
+    background-color: #DEEAD9;
+    border: none;
+    text-indent: 5px;
+    font-size: 1.2rem;
+    outline: none;
 }
