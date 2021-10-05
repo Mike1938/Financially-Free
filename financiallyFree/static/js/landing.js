@@ -3,6 +3,7 @@ const expenseCost = document.getElementById('expenseCost');
 const expenseForm = document.getElementById('expenseForm');
 const totalExpenses = document.querySelector('#totalExpenses')
 const errorChecking = document.querySelectorAll('.errorChecking')
+let expensePi = document.getElementById('expensePi');
 
 // * Function in charge of creating rgb random colors
 const ranColor = ()=>{
@@ -10,11 +11,11 @@ const ranColor = ()=>{
     for(let i = 0; i < 3; i++){
         rgb.push(Math.floor(Math.random() * 255 ))
     }
-    return `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`
+    return `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;
 }
 // *Chart data
-let data = [12, 19, 3, 5, 2, 3]
-let labels = ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange']
+let data = [12.99, 14.99, 6.50, 35.76, 112.34, 50]
+let labels = ['Wendys', 'Netflix', 'Burger Kings', 'Groceries', 'BirthDay Gift', 'Gas']
 let backgroundColor = [
     'rgb(255, 99, 132)',
     'rgb(54, 162, 235)',
@@ -57,15 +58,13 @@ const sumExpenses = (data)=>{
 
 totalExpenses.textContent = sumExpenses(data);
 
-
-let expensePi = document.getElementById('expensePi');
-let myChart = createChart()
+let myChart = createChart();
 // *Event listener that is waiting on user to hit confirm, data user input data is then added to the chart dynamically
 expenseForm.addEventListener('submit',(e)=>{
     e.preventDefault();
     // *Verification of user inputs   
-    let title = expenseTitle.value.trim()
-    let cost = Number(expenseCost.value)
+    let title = expenseTitle.value.trim();
+    let cost = Number(expenseCost.value);
     if(title === ""){
         errorChecking[0].classList.add('error')
         errorChecking[0].textContent = "Title cannot be left empty"
@@ -81,14 +80,14 @@ expenseForm.addEventListener('submit',(e)=>{
     // * After verification of input if both are true then all data is push to chart
     if(title && cost){
         if(errorChecking[0].textContent || errorChecking[1].textContent){
-            errorChecking[0].classList.remove('error')
-            errorChecking[1].classList.remove('error')
+            errorChecking[0].classList.remove('error');
+            errorChecking[1].classList.remove('error');
         }
-        data.push(Number(expenseCost.value))
-        labels.push(title)
-        backgroundColor.push(ranColor())
-        myChart.destroy()
-        myChart = createChart()
+        data.push(Number(expenseCost.value));
+        labels.push(title);
+        backgroundColor.push(ranColor());
+        myChart.destroy();
+        myChart = createChart();
         totalExpenses.textContent = sumExpenses(data);
     }
     expenseCost.value = ""
