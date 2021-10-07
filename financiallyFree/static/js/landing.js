@@ -53,6 +53,7 @@ const sumExpenses = (data)=>{
     data.forEach((d)=>{
         sum += d;
     })
+    sum = sum.toFixed(2)
     return `$${sum}`
 }
 

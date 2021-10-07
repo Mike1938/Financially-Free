@@ -45,6 +45,26 @@
         </div>
 
     </section>
+    <footer>
+        <div class="socials">
+            <a href=""><img src="{{url_for('static', filename='./images/logo-github.svg')}}" alt="GitHub Link"></a>
+            <a href=""><img src="{{url_for('static', filename='./images/logo-linkedin.svg')}}" alt="Linkedin"></a>
+        </div>
+        <div id="otherPages">
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/login">Login</a></li>
+                <li><a href="/Dashboard">DashBoard</a></li>
+            </ul>
+        </div>
+        <div class="socials">
+            <a href=""><img src="{{url_for('static', filename='./images/logo-twitter.svg')}}" alt="Twitter Link"></a>
+            <a href=""><img src="{{url_for('static', filename='./images/mail-outline.svg')}}" alt="Mail Link"></a>
+        </div>
+        <div id="backToTop">
+            <a href="#top"><button>Back To Top</button></a>
+        </div>
+    </footer>
     <script src="{{url_for('static', filename='./js/landing.js')}}"></script>
 </body>
 </html>
