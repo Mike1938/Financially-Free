@@ -17,4 +17,7 @@ def create_app():
     from .views import views
     app.register_blueprint(views, url_prefix ='/')
     
+    from . import db
+    db.init_app(app)
+
     return app
