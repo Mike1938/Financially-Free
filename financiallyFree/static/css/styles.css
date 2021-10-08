@@ -36,14 +36,13 @@ nav{
 #landingSec{
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    justify-content: center;
     align-items: center;
     height: 100%;
     background-image: url("../images/LandingPage.svg");
     background-repeat: no-repeat;
     background-size: cover;
 }
-#logo img, #title img{
+#logoImg, #title img{
     width: 80%;
 }
 #title button{
@@ -215,4 +214,28 @@ footer ul a{
 .socials img:hover{
     background-color: #fff;
     border-radius: 50%;
+}
+
+@media(max-width: 880px){
+    #landingSec{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+    }
+    #logoImg{
+        width: 60%;
+    }
+    #title{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    #aboutApp{
+        grid-template-columns: 1fr;
+        padding-bottom: 18rem;
+    }
+    #headerBox{
+        grid-column: 1/2;
+    }
+
 }
