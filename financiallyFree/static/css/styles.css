@@ -233,7 +233,59 @@ footer ul a{
     background-color: #fff;
     border-radius: 50%;
 }
+#signUp{
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
+#signUp form{
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    height: 50%;
+    width: 60%;
+    border-radius: 20px;
+    align-content: flex-end;
+    justify-content: space-around;
+    padding: 20px;
+}
+#signUp p{
+    color: #255121;
+    font-size: 3rem;
+    margin: 0;
 
+}
+#signUp .error{
+    color: rgb(223, 115, 115);
+    font-size: 1.5rem;
+}
+#signUp form input{
+    height: 40px;
+    border: none;
+    outline: none;
+    background-color: #DEEAD9;
+    border-radius: 10px;
+    text-indent: 10px;
+    font-size: 1.1rem;
+    width: 80%;
+}
+#signUp form label{
+    font-size: 1.2rem;
+}
+#signUp form button{
+    height: 40px;
+    border-radius: 10px;
+    border: none;
+    background-color: #5AB242;
+    transition: all ease-in 200ms;
+    font-size: 1.2rem;
+    color: #fff;
+}
+#signUp form button:hover{
+    cursor: pointer;
+    background-color: #6A9957;
+}
 #registerB{
     background-color: #DEEAD9;
 }

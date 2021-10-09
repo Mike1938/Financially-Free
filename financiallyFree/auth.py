@@ -10,13 +10,19 @@ auth = Blueprint('auth', __name__)
 
 @auth.route('/register', methods = ('GET', 'POST'))
 def register():
+    checkErr = None
     if request.method == 'POST':
-        print("It entered")
         username = request.form['username']
         password = request.form['password']
         db = get_db()
         error = None
-
+        if not username:
+            error = "Username cannot be left blank..."
+        if not password:
+            error = "Password cannot be left blank..."
+        elif len(password) < 5:
+            error = "Password must be greater than 5 characters..."
+            
         # ? Insert the user to the database
         if error is None:
             try:
@@ -28,12 +34,12 @@ def register():
                 db.commit()
                 
             except db.IntegrityError:
-                error = f"The user {username} is already registered"
+                error = f"The user {username} is already taken, please try again..."
             else: 
                 return redirect(url_for("auth.login"))
 
-    print(error)
-    return render_template('register.html')
+        checkErr = error
+    return render_template('register.html', err = checkErr)
 
 @auth.route('/login', methods=('GET', 'POST'))
 def login():

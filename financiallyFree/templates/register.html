@@ -18,12 +18,40 @@
     </nav>
     <section id="signUp">
         <form method="post">
-            <label for="userName">Username</label>
-            <input name="username" id="userName" type="text" placeholder="John">
-            <label for="password">Password</label>
-            <input name="password" id="password" type="password" placeholder="password">
+            <p>Sign Up</p>
+            {% if err%}
+                <p class="error">{{err}}</p>
+            {% endif %}
+            <div>
+                <label for="userName">Username</label>
+                <input name="username" id="userName" type="text" placeholder="John">
+            </div>
+            <div>
+                <label for="password">Password</label>
+                <input name="password" id="password" type="password" placeholder="password">
+            </div>  
             <button>Submit</button>
         </form>
     </section>
+    <footer>
+        <div class="socials">
+            <a href="https://github.com/Mike1938" target="_"><img src="{{url_for('static', filename='./images/logo-github.svg')}}" alt="GitHub Link"></a>
+            <a href="https://www.linkedin.com/" target="_"><img src="{{url_for('static', filename='./images/logo-linkedin.svg')}}" alt="Linkedin"></a>
+        </div>
+        <div id="otherPages">
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/login">Login</a></li>
+                <li><a href="/Dashboard">DashBoard</a></li>
+            </ul>
+        </div>
+        <div class="socials">
+            <a href="https://twitter.com/home" target="_"><img src="{{url_for('static', filename='./images/logo-twitter.svg')}}" alt="Twitter Link"></a>
+            <a href="" target="_"><img src="{{url_for('static', filename='./images/mail-outline.svg')}}" alt="Mail Link"></a>
+        </div>
+        <div id="backToTop">
+            <a href="#top"><button>Back To Top</button></a>
+        </div>
+    </footer>
 </body>
 </html>
