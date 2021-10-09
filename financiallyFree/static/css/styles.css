@@ -234,6 +234,10 @@ footer ul a{
     border-radius: 50%;
 }
 
+#registerB{
+    background-color: #DEEAD9;
+}
+
 @media(max-width: 880px){
     #landingSec{
         display: flex;

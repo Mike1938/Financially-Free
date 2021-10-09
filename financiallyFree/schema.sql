@@ -1,10 +1,12 @@
-
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS cattegories;
+DROP TABLE IF EXISTS expenses;
+DROP TABLE IF EXISTS savings;
 
 CREATE TABLE users(
     userID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    userName TEXT NOT NULL,
-    passWord TEXT NOT NULL,
-    dateCreated TEXT NOT NULL
+    userName TEXT NOT NULL UNIQUE,
+    userPass TEXT NOT NULL
 );
 
 CREATE TABLE cattegories(

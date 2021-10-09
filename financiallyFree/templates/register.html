@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static', filename='./css/styles.css')}}">
+    <title>Register</title>
+</head>
+<body id="registerB">
+    <nav>
+        <div id="navLinks">
+            <a href="/">Financially Free</a>
+            <a href="/auth/login">Login</a>
+            <a href="/auth/logout">Logout</a>
+            <a href="/auth/login">DashBoard</a>
+        </div>
+    </nav>
+    <section id="signUp">
+        <form method="post">
+            <label for="userName">Username</label>
+            <input name="username" id="userName" type="text" placeholder="John">
+            <label for="password">Password</label>
+            <input name="password" id="password" type="password" placeholder="password">
+            <button>Submit</button>
+        </form>
+    </section>
+</body>
+</html>
