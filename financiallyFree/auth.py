@@ -1,4 +1,5 @@
 import functools
+from os import error
 from flask import(
     Blueprint, blueprints, flash, g, redirect, render_template, request, session, url_for
 )
@@ -7,6 +8,18 @@ from financiallyFree.db import get_db
 
 # ? Blueprint, to be able to route using /auth
 auth = Blueprint('auth', __name__)
+def verifyUsers(user, userPass):
+    error = []
+    if not user:
+            error.append("Username cannot be left blank...")
+    if not userPass:
+            error.append("Password cannot be left blank...")
+    elif len(userPass) < 5:
+            error.append("Password must be greater than 5 characters...")
+    if error:
+        return error
+    else:
+        return None
 
 @auth.route('/register', methods = ('GET', 'POST'))
 def register():
@@ -15,13 +28,7 @@ def register():
         username = request.form['username']
         password = request.form['password']
         db = get_db()
-        error = None
-        if not username:
-            error = "Username cannot be left blank..."
-        if not password:
-            error = "Password cannot be left blank..."
-        elif len(password) < 5:
-            error = "Password must be greater than 5 characters..."
+        error = verifyUsers(username, password)
             
         # ? Insert the user to the database
         if error is None:
@@ -43,4 +50,29 @@ def register():
 
 @auth.route('/login', methods=('GET', 'POST'))
 def login():
-    return render_template("login.html")
+    checkErr = None
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        db = get_db()
+        error = verifyUsers(username, password)
+        if error is None:
+            user = db.execute(
+                "SELECT * FROM users WHERE userName = ?", (username,)
+            ).fetchone()
+
+            if user is None:
+                error = ["User could not be found"]
+            elif not check_password_hash(user['userPass'], password):
+                error = ["password is incorrect please try again"]
+            if error is None:
+                session.clear()
+                session['userId'] = user['userID']
+                return redirect(url_for('views.dashboard'))
+        checkErr = error
+    return render_template("login.html", err = checkErr)
+
+@auth.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('views.landingPage'))

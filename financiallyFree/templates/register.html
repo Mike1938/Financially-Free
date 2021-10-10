@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{url_for('static', filename='./css/styles.css')}}">
-    <title>Register</title>
+    <title>{%block title%}Register{% endblock %}</title>
 </head>
 <body id="registerB">
     <nav>
@@ -18,9 +18,14 @@
     </nav>
     <section id="signUp">
         <form method="post">
-            <p>Sign Up</p>
+            <p>{% block formTitle %}Sign Up{% endblock %}</p>
+
             {% if err%}
-                <p class="error">{{err}}</p>
+            
+                {%for e in err%}
+                    <p class="error">{{e}}</p>
+                {%endfor%}
+
             {% endif %}
             <div>
                 <label for="userName">Username</label>
