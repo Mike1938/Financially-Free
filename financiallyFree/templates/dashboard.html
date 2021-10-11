@@ -21,11 +21,11 @@
     </nav>
     <section id="dashboard">
         <aside id="dashForms">
-            <p>Welcome {{g.user['username']}}</p>
+            <p id="userName">Welcome {{g.user['username']}}</p>
             <div class ="cards" id="expenses">
                 <p class="formTitles">Monthly Expenses</p>
                 <p class="amounts" id="expenseAmount">0</p>
-                <button class="plusButton">+</button>
+                <button id="expenseEx" class="plusButton">-</button>
                 <form id="dashExpenseForm" method="post" autocomplete="off">
                     <label for="eTitle">Expense Title</label>
                     <input name="expenseTitle" id="eTitle" type="text" placeholder="Expense Title">
@@ -47,7 +47,7 @@
             <div class="cards" id="savings">
                 <p class="formTitles">Savings</p>
                 <p class="amounts" id="savingsAmount">0</p>
-                <button class="plusButton">+</button>
+                <button id="savingEx" class="plusButton">-</button>
                 <form id="savingForm" method="post" autocomplete="off">
                     <label for="sTitle">Savings Title</label>
                     <input id="sTitle" name="savingTitle" type="text" placeholder="Saving Title">

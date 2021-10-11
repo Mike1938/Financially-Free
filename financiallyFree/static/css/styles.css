@@ -298,6 +298,10 @@ footer ul a{
 #dashboardBody{
     background-color: #C8DBB1;
 }
+#userName{
+    font-size: 1.5rem;
+    margin: 10px;
+}
 .cards{
     display: flex;
     flex-direction: column;
@@ -313,6 +317,7 @@ footer ul a{
 }
 #dashForms{
     margin-left: 20px;
+    text-align: center;
 }
 .formTitles{
     margin-left: 10px;
@@ -320,12 +325,12 @@ footer ul a{
 }
 #dashForms .plusButton{
     border-radius: 50%;
-    height: 30px;
-    width: 30px;
+    height: 35px;
+    width: 35px;
     font-size: 1.5rem;
     font-weight: 700;
     border: none;
-    background-color: #6DA05C;
+    background-color: #F88989;
     margin: 8px;
     transition: all ease-in 200ms;
     align-self: flex-end;
@@ -362,6 +367,17 @@ footer ul a{
     border-bottom-right-radius: 12px;
     color: #fff;
     font-size: 1.1rem;
+    transition: all ease-in 200ms;
+}
+#dashExpenseForm button:hover, #savingForm button:hover{
+    cursor: pointer;
+    background-color: #89C878;
+}
+.hideForm{
+    display: none !important;
+}
+.greenButton{
+    background-color: #6DA05C !important;
 }
 @media(max-width: 880px){
     #landingSec{
