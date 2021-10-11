@@ -290,6 +290,79 @@ footer ul a{
     background-color: #DEEAD9;
 }
 
+#dashboard{
+    display: grid;
+    grid-template-columns: 20% 80%;
+    height: 100%;
+}
+#dashboardBody{
+    background-color: #C8DBB1;
+}
+.cards{
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    border-radius: 12px;
+    margin-top: 20px;
+}
+.amounts{
+    font-size: 2.5rem;
+    color: #65A55B;
+    margin: 10px;
+    align-self: center;
+}
+#dashForms{
+    margin-left: 20px;
+}
+.formTitles{
+    margin-left: 10px;
+    font-size: 1.5rem;
+}
+#dashForms .plusButton{
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+    font-size: 1.5rem;
+    font-weight: 700;
+    border: none;
+    background-color: #6DA05C;
+    margin: 8px;
+    transition: all ease-in 200ms;
+    align-self: flex-end;
+}
+#dashForms .plusButton:hover{
+    cursor: pointer;
+    transform: rotate(180deg);
+}
+#dashExpenseForm, #savingForm{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#dashExpenseForm label{
+    margin-top: 5px;
+}
+#dashForms input, #dashForms select{
+    width: 80%;
+    height: 30px;
+    border: none;
+    background-color: #DEEAD9;
+    border-radius: 8px;
+    text-indent: 5px;
+    outline: none;
+    margin-top: 10px;
+}
+#dashExpenseForm button, #savingForm button{
+    width: 100%;
+    border: none;
+    background-color: #6DA05C;
+    height: 30px;
+    margin-top: 20px;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    color: #fff;
+    font-size: 1.1rem;
+}
 @media(max-width: 880px){
     #landingSec{
         display: flex;

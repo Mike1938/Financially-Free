@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{{url_for('static', filename='./css/styles.css')}}">
     <title>Dashboard</title>
 </head>
-<body>
+<body id="dashboardBody">
     <nav>
         <div id="navLinks">
             <a href="/">Financially Free</a>
@@ -19,6 +19,55 @@
             {%endif%}    
         </div>
     </nav>
-    <h1>Dashboard</h1>
+    <section id="dashboard">
+        <aside id="dashForms">
+            <p>Welcome {{g.user['username']}}</p>
+            <div class ="cards" id="expenses">
+                <p class="formTitles">Monthly Expenses</p>
+                <p class="amounts" id="expenseAmount">0</p>
+                <button class="plusButton">+</button>
+                <form id="dashExpenseForm" method="post" autocomplete="off">
+                    <label for="eTitle">Expense Title</label>
+                    <input name="expenseTitle" id="eTitle" type="text" placeholder="Expense Title">
+                    <label for="cattegory">Expense Cattegory</label>
+                    <select name="cattegory" id="cattegory">
+                        <option value="1">Groceries</option>
+                    </select>
+                    <label for="eAmount">Expense Amount</label>
+                    <input name="expenseAmount" id="eAmount" type="text" placeholder="Expense Amount">
+                    <label for="eDate">Expense Date</label>
+                    <input name="exepenseDate" id="eDate" type="date">
+                    <select name="didPay" id="payed">
+                        <option value="1">Havent Payed</option>
+                        <option value="1">Payed</option>
+                    </select>
+                    <button>Add</button>
+                </form>
+            </div>
+            <div class="cards" id="savings">
+                <p class="formTitles">Savings</p>
+                <p class="amounts" id="savingsAmount">0</p>
+                <button class="plusButton">+</button>
+                <form id="savingForm" method="post" autocomplete="off">
+                    <label for="sTitle">Savings Title</label>
+                    <input id="sTitle" name="savingTitle" type="text" placeholder="Saving Title">
+                    <label for="sAmount">Savings Amount</label>
+                    <input name="savingAmount" id="sAmount" type="text" placeholder="Savings amount">
+                    <label for="sDate">Savings Date</label>
+                    <input id="sDate" name="savingDate" type="date">
+                    <button>Add</button>
+                </form>
+            </div>
+        </aside>
+        <div id="dashInfo">
+            <div>
+
+            </div>
+            <div>
+
+            </div>
+        </div>
+    </section>
+    <script src="{{url_for('static', filename= './js/dashboard.js')}}"></script>
 </body>
 </html>
