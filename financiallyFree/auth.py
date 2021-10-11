@@ -1,7 +1,7 @@
 import functools
 from os import error
 from flask import(
-    Blueprint, blueprints, flash, g, redirect, render_template, request, session, url_for
+    Blueprint, g, redirect, render_template, request, session, url_for
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 from financiallyFree.db import get_db
@@ -21,8 +21,13 @@ def verifyUsers(user, userPass):
     else:
         return None
 
+# ? This is going to register the user to the database, first is going to validate the info given by the users
+# ? Then the database get initialize and the user data get inserted to the database if user already exist an alert will show if not it will be inserted and redirected to the login page
+
 @auth.route('/register', methods = ('GET', 'POST'))
 def register():
+    if g.user:
+        return redirect(url_for("views.landingPage"))
     checkErr = None
     if request.method == 'POST':
         username = request.form['username']
@@ -48,6 +53,7 @@ def register():
         checkErr = error
     return render_template('register.html', err = checkErr)
 
+# ? Log in user route, this is going to check the form of the user and find them in the database if not an error will be show to the user
 @auth.route('/login', methods=('GET', 'POST'))
 def login():
     checkErr = None
@@ -72,6 +78,29 @@ def login():
         checkErr = error
     return render_template("login.html", err = checkErr)
 
+# ? This is going to check before every request request if the user is logged in and search the database for the information
+@auth.before_app_request
+def load_User():
+    print(g)
+    userId = session.get('userId')
+    print(userId)
+    if userId is None:
+        g.user = None
+    else:
+        g.user = get_db().execute(
+            "SELECT * FROM users WHERE userId = ?", (userId,)
+        ).fetchone()
+
+# ?Verifies that the user is logged in when accesing request
+def loginRequired(view):
+    @functools.wraps(view)
+    def wrappedView(**kwargs):
+        if g.user is None:
+            return redirect(url_for('auth.login'))
+        return view(**kwargs)
+    return wrappedView
+
+# ? Logout user and clear the session cookies
 @auth.route('/logout')
 def logout():
     session.clear()

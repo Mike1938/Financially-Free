@@ -11,9 +11,12 @@
     <nav>
         <div id="navLinks">
             <a href="/">Financially Free</a>
-            <a href="/auth/login">Login</a>
+            {%if g.user%}
+            <a href="/dashboard">DashBoard</a>
             <a href="/auth/logout">Logout</a>
-            <a href="/auth/login">DashBoard</a>
+            {%else%}
+            <a href="/auth/login">Login</a>
+            {%endif%}    
         </div>
     </nav>
     <section id="signUp">
@@ -21,7 +24,7 @@
             <p>{% block formTitle %}Sign Up{% endblock %}</p>
 
             {% if err%}
-            
+
                 {%for e in err%}
                     <p class="error">{{e}}</p>
                 {%endfor%}
