@@ -30,6 +30,7 @@
                 {%endfor%}
 
             {% endif %}
+            {% block inputs %}
             <div>
                 <label for="userName">Username</label>
                 <input name="username" id="userName" type="text" placeholder="John">
@@ -38,6 +39,16 @@
                 <label for="password">Password</label>
                 <input name="password" id="password" type="password" placeholder="password">
             </div>  
+            <div>
+                <label for="fName">First Name</label>
+                <input name="fName" id="fName" type="text" placeholder="First Name">
+            </div>  
+            <div>
+                <label for="lName">Last Name</label>
+                <input name="lName" id="lName" type="text" placeholder="Last Name">
+            </div>
+            {% endblock %}
+            
             <button>Submit</button>
         </form>
     </section>

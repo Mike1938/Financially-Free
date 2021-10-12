@@ -6,7 +6,10 @@ DROP TABLE IF EXISTS savings;
 CREATE TABLE users(
     userID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     userName TEXT NOT NULL UNIQUE,
-    userPass TEXT NOT NULL
+    userPass TEXT NOT NULL,
+    fName TEXT NOT NULL,
+    lName TEXT NOT NULL,
+    dateReg TEXT NOT NULL
 );
 
 CREATE TABLE cattegories(
@@ -36,3 +39,9 @@ create TABLE savings(
     FOREIGN KEY(cattID) REFERENCES cattegories(cattID),
     FOREIGN KEY(userID) REFERENCES users(userID)
 );
+
+INSERT INTO cattegories(cattName) VALUES
+("Housing"), ("Transportation"), ("Food"),
+("Utilities"), ("Insurance"), ("Utilities"), ("Medical & Healthcare"),
+("Personal Spending"), ("Recreation & Entertainment"), ("Miscellaneous"),
+("Saving, Investing & Debt Payments");

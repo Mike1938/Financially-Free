@@ -1,5 +1,6 @@
 import functools
 from os import error
+import datetime
 from flask import(
     Blueprint, g, redirect, render_template, request, session, url_for
 )
@@ -8,7 +9,7 @@ from financiallyFree.db import get_db
 
 # ? Blueprint, to be able to route using /auth
 auth = Blueprint('auth', __name__)
-def verifyUsers(user, userPass):
+def verifyUsers(user, userPass,fName = None, lName = None):
     error = []
     if not user:
             error.append("Username cannot be left blank...")
@@ -16,6 +17,11 @@ def verifyUsers(user, userPass):
             error.append("Password cannot be left blank...")
     elif len(userPass) < 5:
             error.append("Password must be greater than 5 characters...")
+    if not fName == None or not lName == None:
+        if not fName:
+            error.append("First Name cannot be left blank...")
+        if not lName:
+            error.append("Last Name Cannot be left blank...")
     if error:
         return error
     else:
@@ -32,15 +38,18 @@ def register():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
+        fName = request.form['fName']
+        lName = request.form['lName']
+        regDate = datetime.datetime.now()
         db = get_db()
-        error = verifyUsers(username, password)
+        error = verifyUsers(username, password, fName, lName)
             
         # ? Insert the user to the database
         if error is None:
             try:
                 db.execute(
-                    "INSERT INTO users (userName, userPass) VALUES (?, ?)",
-                    (username, generate_password_hash(password)),
+                    "INSERT INTO users (userName, userPass, fName, lName, dateReg) VALUES (?, ?, ?, ?, ?)",
+                    (username, generate_password_hash(password), fName, lName, regDate),
                 )
                 
                 db.commit()
@@ -81,9 +90,7 @@ def login():
 # ? This is going to check before every request request if the user is logged in and search the database for the information
 @auth.before_app_request
 def load_User():
-    print(g)
     userId = session.get('userId')
-    print(userId)
     if userId is None:
         g.user = None
     else:
