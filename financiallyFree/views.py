@@ -20,13 +20,14 @@ def dashboard():
         "SELECT * FROM cattegories"
     ).fetchall()
     exCattData = db.execute(
-        "SELECT cattegories.cattName, sum(expenseAmount) FROM expenses INNER JOIN cattegories ON cattegories.cattID = expenses.cattID GROUP BY cattName"
+        "SELECT cattegories.cattName, sum(expenseAmount) AS 'exAmount' FROM expenses INNER JOIN cattegories ON cattegories.cattID = expenses.cattID WHERE expenses.userID = ?  GROUP BY cattName" ,
+        (g.user["userId"],)
     ).fetchall()
-    
+
     if request.method == "POST":
         title = request.form["expenseTitle"]
         exCatt = request.form["cattegory"]
-        exAmount = int(request.form["expenseAmount"])
+        exAmount = float(request.form["expenseAmount"])
         expenseDate = request.form["exepenseDate"]
         didPay = request.form["didPay"]
         user = g.user["userId"]
@@ -41,4 +42,4 @@ def dashboard():
         else:
             print("It was subbmited")
             return redirect(url_for("views.dashboard"))
-    return render_template("dashboard.html", cattData = catt)
+    return render_template("dashboard.html", cattData = catt, exData = exCattData)

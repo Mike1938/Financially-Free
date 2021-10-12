@@ -66,6 +66,11 @@
             <div class="infoCards">
                 <div id="expenseInfo">
                     <p>Expenses by cattegory</p>
+                    <ul id="expenseList">
+                        {%for d in exData%}
+                            <li><span class="cattName">{{d["cattName"]}}</span> - <span class="sumExAmount">{{d["exAmount"]}}</span></li>
+                        {%endfor%}
+                    </ul>
                 </div>
                 <div>
                     <canvas id="expenseChart">

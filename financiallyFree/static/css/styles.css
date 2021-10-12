@@ -384,8 +384,21 @@ footer ul a{
     background-color: #fff;
     display: flex;
     width: 95%;
+    height: 35%;
     border-radius: 20px;
     justify-content: space-around;
+}
+#expenseInfo p{
+    font-size: 1.5rem;
+}
+#expenseList{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: 1.2rem;
+}
+#expenseList li{
+    margin: 10px;
 }
 @media(max-width: 880px){
     #landingSec{
