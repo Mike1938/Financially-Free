@@ -34,9 +34,7 @@ create TABLE savings(
     savingName TEXT NOT NULL,
     savingAmount REAL NOT NULL,
     savingDate TEXT NOT NULL,
-    cattID INTEGER NOT NULL,
     userID INTEGER NOT NULL,
-    FOREIGN KEY(cattID) REFERENCES cattegories(cattID),
     FOREIGN KEY(userID) REFERENCES users(userID)
 );
 

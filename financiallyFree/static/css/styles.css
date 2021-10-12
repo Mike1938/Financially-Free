@@ -388,16 +388,16 @@ footer ul a{
     border-radius: 20px;
     justify-content: space-around;
 }
-#expenseInfo p{
+#expenseInfo p, #savingsInfo p{
     font-size: 1.5rem;
 }
-#expenseList{
+.list{
     margin: 0;
     padding: 0;
     list-style: none;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
 }
-#expenseList li{
+.list li{
     margin: 10px;
 }
 @media(max-width: 880px){

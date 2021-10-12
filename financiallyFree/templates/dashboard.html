@@ -44,7 +44,7 @@
                         <option value="Did payed">Havent Payed</option>
                         <option value="Not Payed">Payed</option>
                     </select>
-                    <button>Add</button>
+                    <button name="expenseSub">Add</button>
                 </form>
             </div>
             <div class="cards" id="savings">
@@ -66,7 +66,7 @@
             <div class="infoCards">
                 <div id="expenseInfo">
                     <p>Expenses by cattegory</p>
-                    <ul id="expenseList">
+                    <ul class="list">
                         {%for d in exData%}
                             <li><span class="cattName">{{d["cattName"]}}</span> - <span class="sumExAmount">{{d["exAmount"]}}</span></li>
                         {%endfor%}
@@ -81,6 +81,11 @@
             <div class="infoCards">
                 <div id="savingsInfo">
                     <p>Savings</p>
+                    <ul class="list">
+                        {%for d in savingsData%}
+                            <li><span class="savName">{{d["savingName"]}}</span> - <span class="sumSavAmount">{{d["savingAmount"]}}</span></li>
+                        {%endfor%}
+                    </ul>
                 </div>
                 <div>
                     <canvas id="savingsChart">
