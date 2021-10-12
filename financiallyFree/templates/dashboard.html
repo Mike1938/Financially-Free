@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.1/chart.min.js" integrity="sha512-Wt1bJGtlnMtGP0dqNFH1xlkLBNpEodaiQ8ZN5JLA5wpc1sUlk/O5uuOMNgvzddzkpvZ9GLyYNa8w2s7rqiTk5Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="stylesheet" href="{{url_for('static', filename='./css/styles.css')}}">
     <title>Dashboard</title>
 </head>
@@ -31,15 +32,17 @@
                     <input name="expenseTitle" id="eTitle" type="text" placeholder="Expense Title">
                     <label for="cattegory">Expense Cattegory</label>
                     <select name="cattegory" id="cattegory">
-                        <option value="1">Groceries</option>
+                        {%for data in cattData%}
+                            <option value="{{data['cattID']}}">{{data["cattName"]}}</option>
+                        {%endfor%}
                     </select>
                     <label for="eAmount">Expense Amount</label>
                     <input name="expenseAmount" id="eAmount" type="text" placeholder="Expense Amount">
                     <label for="eDate">Expense Date</label>
                     <input name="exepenseDate" id="eDate" type="date">
                     <select name="didPay" id="payed">
-                        <option value="1">Havent Payed</option>
-                        <option value="1">Payed</option>
+                        <option value="Did payed">Havent Payed</option>
+                        <option value="Not Payed">Payed</option>
                     </select>
                     <button>Add</button>
                 </form>
@@ -60,11 +63,25 @@
             </div>
         </aside>
         <div id="dashInfo">
-            <div>
+            <div class="infoCards">
+                <div id="expenseInfo">
+                    <p>Expenses by cattegory</p>
+                </div>
+                <div>
+                    <canvas id="expenseChart">
 
+                    </canvas>
+                </div>
             </div>
-            <div>
-
+            <div class="infoCards">
+                <div id="savingsInfo">
+                    <p>Savings</p>
+                </div>
+                <div>
+                    <canvas id="savingsChart">
+                    
+                    </canvas>
+                </div> 
             </div>
         </div>
     </section>

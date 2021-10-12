@@ -2,6 +2,9 @@ const exExpandButton = document.querySelector("#expenseEx");
 const savExpandButton = document.querySelector("#savingEx");
 const expenseForm = document.querySelector("#dashExpenseForm");
 const savingForm = document.querySelector("#savingForm");
+const expenseChart = document.querySelector("#expenseChart");
+const savingChart = document.querySelector("#savingsChart");
+
 
 const checkButton = (data)=>{
     if (data.textContent === "-"){

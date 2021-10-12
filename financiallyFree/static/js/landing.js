@@ -26,8 +26,8 @@ let backgroundColor = [
 ]
 
 // * Function in charge of creating pie chart
-const createChart = ()=>{
-    let result = new Chart(expensePi, {
+const createChart = (chart, amount= data, title = labels, bg = backgroundColor)=>{
+    let result = new Chart(chart, {
         type: 'doughnut',
         data: {
             labels: labels,
@@ -59,7 +59,7 @@ const sumExpenses = (data)=>{
 
 totalExpenses.textContent = sumExpenses(data);
 
-let myChart = createChart();
+let myChart = createChart(expensePi);
 // *Event listener that is waiting on user to hit confirm, data user input data is then added to the chart dynamically
 expenseForm.addEventListener('submit',(e)=>{
     e.preventDefault();
@@ -88,7 +88,7 @@ expenseForm.addEventListener('submit',(e)=>{
         labels.push(title);
         backgroundColor.push(ranColor());
         myChart.destroy();
-        myChart = createChart();
+        myChart = createChart(expensePi);
         totalExpenses.textContent = sumExpenses(data);
     }
     expenseCost.value = ""

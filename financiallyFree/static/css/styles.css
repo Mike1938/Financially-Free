@@ -379,6 +379,14 @@ footer ul a{
 .greenButton{
     background-color: #6DA05C !important;
 }
+.infoCards{
+    margin: 55px 20px;
+    background-color: #fff;
+    display: flex;
+    width: 95%;
+    border-radius: 20px;
+    justify-content: space-around;
+}
 @media(max-width: 880px){
     #landingSec{
         display: flex;

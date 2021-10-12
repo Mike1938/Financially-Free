@@ -42,6 +42,6 @@ create TABLE savings(
 
 INSERT INTO cattegories(cattName) VALUES
 ("Housing"), ("Transportation"), ("Food"),
-("Utilities"), ("Insurance"), ("Utilities"), ("Medical & Healthcare"),
+("Utilities"), ("Insurance"), ("Car Payment"), ("Medical & Healthcare"),
 ("Personal Spending"), ("Recreation & Entertainment"), ("Miscellaneous"),
 ("Saving, Investing & Debt Payments");
