@@ -66,22 +66,63 @@
         </aside>
         <div id="dashInfo">
             <div class="infoCards">
-                <div id="expenseInfo">
-                    <p>Expenses by category</p>
-                    <ul class="list">
-                        {%for d in exData%}
-                            <li><span class="cattName">{{d["catName"]}}</span> - <span class="sumExAmount">{{d["exAmount"]}}</span></li>
-                        {%endfor%}
-                    </ul>
-                </div>
-                <div>
-                    <canvas id="expenseChart">
-
-                    </canvas>
+                <div id="exByCat">
+                    <p class="secTitle">Expenses for the month</p>
+                    <div id="expenseInfo">
+                        <table class="dataTables">
+                            <thead>
+                                <tr><th colspan="3">{{dataDate.readDate}}</th></tr>
+                                <tr>
+                                    <th>Expense Title</th>
+                                    <th>Expense Amount</th>
+                                    <th>Expense Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {%for d in exData%}
+                                    <tr>
+                                        <td><span class="cattName">{{d["catName"]}}</span></td>
+                                        <td>$<span class="sumExAmount">{{d["exAmount"]}}</span></td>
+                                        <td><span class="expenseDate">{{d["expenseDate"]}}</span></td>
+                                    </tr>
+                                {%endfor%}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                        <canvas id="expenseChart">
+    
+                        </canvas>
+                    </div>
                 </div>
                 <div id="moreInfo">
-                    <h1>Hello</h1>
+                    <p class="secTitle">Expenses by month</p>
+                    <div id="monthExpense">
+                        <table class="dataTables">
+                            <thead>
+                                <tr>
+                                    <th colspan="2">Monthly Expenses</th>
+                                </tr>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {%for d in monthGEx%}
+                                    <tr>
+                                        <td><span class="barTitles">{{d["dateInfo"]}}</span></td>
+                                        <td>$<span class="barSumTotal">{{d["sumTotal"]}}</span></td>
+                                    </tr>
+                                {%endfor%}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                        <canvas id="monthlyBar"></canvas>
+                    </div>
                 </div>
+                <button id="expenseExpand">-</button>
             </div>
             <div class="infoCards">
                 <div id="budgetInfo">

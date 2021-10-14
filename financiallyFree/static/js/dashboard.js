@@ -4,13 +4,21 @@ const expenseForm = document.querySelector("#dashExpenseForm");
 const savingForm = document.querySelector("#savingForm");
 const expenseChart = document.querySelector("#expenseChart");
 const savingChart = document.querySelector("#savingsChart");
+// * Expenses variables
 const sumExAmount = document.querySelectorAll(".sumExAmount");
 const expenseAmount = document.querySelector("#expenseAmount");
 const cattName = document.querySelectorAll(".cattName")
+// * Budget variables
 const budName = document.querySelectorAll(".budName");
 const budgetAmount = document.querySelectorAll(".budgetAmount");
 const budgetsAmount = document.querySelector("#budgetsAmount");
-
+// * Bar chart variables
+const barTitles = document.querySelectorAll(".barTitles");
+const barSumTotal = document.querySelectorAll(".barSumTotal");
+const monthlyBar = document.querySelector("#monthlyBar");
+// * expandButtonVariables
+const expenseExpand = document.querySelector("#expenseExpand")
+const moreInfo = document.querySelector("#moreInfo")
 // * Function in charge of creating rgb random colors
 const ranColor = ()=>{
     rgb = []
@@ -52,7 +60,7 @@ const createChart = (chart ,d, chartType = "pie")=>{
         data: {
             labels: d.exTitles,
             datasets: [{
-                label: '# of Votes',
+                label: 'Expense Group by Month',
                 data: d.expenseData,
                 backgroundColor: d.bg,
                 borderColor: d.bg,
@@ -68,6 +76,8 @@ const createChart = (chart ,d, chartType = "pie")=>{
 }
 let myChart = createChart(expenseChart, retrieveExInfo(sumExAmount, cattName))
 let budChart = createChart(savingChart, retrieveExInfo(budgetAmount, budName))
+let monthBar = createChart(monthlyBar, retrieveExInfo(barSumTotal, barTitles), "bar")
+
 sumExAmount.forEach((d)=>{
     expenseAmount.textContent = Number(expenseAmount.textContent) + Number(d.textContent)
     expenseAmount.textContent = Number(expenseAmount.textContent).toFixed(2);
@@ -76,7 +86,6 @@ budgetAmount.forEach((d)=>{
     budgetsAmount.textContent = Number(budgetsAmount.textContent) + Number(d.textContent)
     budgetsAmount.textContent = Number(budgetsAmount.textContent).toFixed(2);
 });
-
 
 
 const checkButton = (data)=>{
@@ -97,4 +106,9 @@ exExpandButton.addEventListener('click', ()=>{
 savExpandButton.addEventListener('click', ()=>{
     savingForm.classList.toggle("hideForm");
     checkButton(savExpandButton);
+})
+
+expenseExpand.addEventListener('click', ()=>{
+    moreInfo.classList.toggle('hideDiv');
+    checkButton(expenseExpand)
 })

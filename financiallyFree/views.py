@@ -1,3 +1,4 @@
+import datetime
 from logging import error
 import re
 from flask import Blueprint, render_template , request , g
@@ -17,7 +18,8 @@ def landingPage():
 @loginRequired
 def dashboard():
     db = get_db()
-
+    date = f"{datetime.datetime.now().year}-{datetime.datetime.now().month}"
+    readableDate = f"{datetime.datetime.now().strftime('%B')} - {datetime.datetime.now().year}" 
 # ?This will query all the cattegories to be use as options for select tags
     catt = db.execute(
         "SELECT * FROM categories"
@@ -25,8 +27,14 @@ def dashboard():
 
 # ? This will query and search in expenses the sum of all the expenses group by categories
     exCattData = db.execute(
-        "SELECT categories.catName, sum(expenseAmount) AS 'exAmount' FROM expenses INNER JOIN categories ON categories.catID = expenses.catID WHERE expenses.userID = ?  GROUP BY catName" ,
-        (g.user["userId"],)
+        "SELECT categories.catName, sum(expenseAmount) AS 'exAmount', SUBSTR(expenseDate, 1, 7) AS dateInfo, expenseDate FROM expenses INNER JOIN categories ON categories.catID = expenses.catID WHERE expenses.userID = ? AND dateInfo = ?  GROUP BY catName" ,
+        (g.user["userId"], date,)
+    ).fetchall()
+    
+# ? This will query the DB and group by month and year and sum all the expenses of the month
+    monthlyEx = db.execute(
+         "SELECT SUBSTR(expenseDate, 1, 7) AS dateInfo, SUM(expenseAmount) AS sumTotal FROM expenses INNER JOIN categories ON categories.catID = expenses.catID WHERE expenses.userID = ? GROUP BY dateInfo",
+         (g.user["userId"],)
     ).fetchall()
 
 # ? This will query and get you the budget amount for each categories
@@ -69,4 +77,4 @@ def dashboard():
             else:
                 return redirect(url_for("views.dashboard"))
     db.close()
-    return render_template("dashboard.html", catData = catt, exData = exCattData, budgetData = budgData)
+    return render_template("dashboard.html", catData = catt, exData = exCattData, budgetData = budgData, dataDate = {"fullDate": date, "readDate": readableDate}, monthGEx = monthlyEx)
