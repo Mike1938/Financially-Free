@@ -382,14 +382,23 @@ footer ul a{
 .infoCards{
     margin: 55px 20px;
     background-color: #fff;
-    display: flex;
-    width: 95%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     height: 35%;
     border-radius: 20px;
-    justify-content: space-around;
+    align-items: center;
+    justify-items: center;
 }
-#expenseInfo p, #savingsInfo p{
+#expenseInfo p, #budgetInfo p{
     font-size: 1.5rem;
+}
+#expenseInfo, #budgetInfo{
+    background-color: #DEEAD9;
+    padding: 20px;
+    border-radius: 13px;
+}
+#moreInfo{
+    display: none;
 }
 .list{
     margin: 0;

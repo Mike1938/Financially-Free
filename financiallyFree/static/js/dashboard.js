@@ -7,9 +7,9 @@ const savingChart = document.querySelector("#savingsChart");
 const sumExAmount = document.querySelectorAll(".sumExAmount");
 const expenseAmount = document.querySelector("#expenseAmount");
 const cattName = document.querySelectorAll(".cattName")
-const savName = document.querySelectorAll(".savName");
-const sumSavAmount = document.querySelectorAll(".sumSavAmount");
-const savingsAmount = document.querySelector("#savingsAmount");
+const budName = document.querySelectorAll(".budName");
+const budgetAmount = document.querySelectorAll(".budgetAmount");
+const budgetsAmount = document.querySelector("#budgetsAmount");
 
 // * Function in charge of creating rgb random colors
 const ranColor = ()=>{
@@ -46,9 +46,9 @@ const retrieveExInfo = (amount, titles)=>{
     }
 }
 //? Created the pie chart with the database info
-const createChart = (chart ,d)=>{ 
+const createChart = (chart ,d, chartType = "pie")=>{ 
     let result = new Chart(chart, {
-        type: 'doughnut',
+        type: chartType,
         data: {
             labels: d.exTitles,
             datasets: [{
@@ -67,14 +67,14 @@ const createChart = (chart ,d)=>{
     return result
 }
 let myChart = createChart(expenseChart, retrieveExInfo(sumExAmount, cattName))
-let savChart = createChart(savingChart, retrieveExInfo(sumSavAmount, savName))
+let budChart = createChart(savingChart, retrieveExInfo(budgetAmount, budName))
 sumExAmount.forEach((d)=>{
     expenseAmount.textContent = Number(expenseAmount.textContent) + Number(d.textContent)
     expenseAmount.textContent = Number(expenseAmount.textContent).toFixed(2);
 });
-sumSavAmount.forEach((d)=>{
-    savingsAmount.textContent = Number(savingsAmount.textContent) + Number(d.textContent)
-    savingsAmount.textContent = Number(savingsAmount.textContent).toFixed(2);
+budgetAmount.forEach((d)=>{
+    budgetsAmount.textContent = Number(budgetsAmount.textContent) + Number(d.textContent)
+    budgetsAmount.textContent = Number(budgetsAmount.textContent).toFixed(2);
 });
 
 

@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS cattegories;
+DROP TABLE IF EXISTS categories;
 DROP TABLE IF EXISTS expenses;
-DROP TABLE IF EXISTS savings;
+DROP TABLE IF EXISTS budgets;
 
 CREATE TABLE users(
     userID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
@@ -12,33 +12,33 @@ CREATE TABLE users(
     dateReg TEXT NOT NULL
 );
 
-CREATE TABLE cattegories(
-    cattID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    cattName TEXT NOT NULL
+CREATE TABLE categories(
+    catID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    catName TEXT NOT NULL
 );
 
 CREATE TABLE expenses(
     expenseID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     expenseName TEXT NOT NULL,
     expenseAmount REAL NOT NULL,
-    cattID INTEGER NOT NULL,
+    catID INTEGER NOT NULL,
     userID INTEGER NOT NULL,
     expenseDate TEXT NOT NULL,
     payed TEXT NOT NULL DEFAULT "false",
     FOREIGN KEY(userID) REFERENCES users(userID),
-    FOREIGN KEY(cattID) REFERENCES cattegories(cattID)
+    FOREIGN KEY(catID) REFERENCES categories(catID)
 );
 
-create TABLE savings(
-    savingID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    savingName TEXT NOT NULL,
-    savingAmount REAL NOT NULL,
-    savingDate TEXT NOT NULL,
+create TABLE budgets(
+    budgetID INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    catID TEXT NOT NULL,
+    budgetAmount REAL NOT NULL,
     userID INTEGER NOT NULL,
-    FOREIGN KEY(userID) REFERENCES users(userID)
+    FOREIGN KEY(userID) REFERENCES users(userID),
+    FOREIGN KEY(catID) REFERENCES categories(catID)
 );
 
-INSERT INTO cattegories(cattName) VALUES
+INSERT INTO categories(catName) VALUES
 ("Housing"), ("Transportation"), ("Food"),
 ("Utilities"), ("Insurance"), ("Car Payment"), ("Medical & Healthcare"),
 ("Personal Spending"), ("Recreation & Entertainment"), ("Miscellaneous"),

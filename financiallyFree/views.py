@@ -17,16 +17,21 @@ def landingPage():
 @loginRequired
 def dashboard():
     db = get_db()
+
+# ?This will query all the cattegories to be use as options for select tags
     catt = db.execute(
-        "SELECT * FROM cattegories"
+        "SELECT * FROM categories"
     ).fetchall()
+
+# ? This will query and search in expenses the sum of all the expenses group by categories
     exCattData = db.execute(
-        "SELECT cattegories.cattName, sum(expenseAmount) AS 'exAmount' FROM expenses INNER JOIN cattegories ON cattegories.cattID = expenses.cattID WHERE expenses.userID = ?  GROUP BY cattName" ,
+        "SELECT categories.catName, sum(expenseAmount) AS 'exAmount' FROM expenses INNER JOIN categories ON categories.catID = expenses.catID WHERE expenses.userID = ?  GROUP BY catName" ,
         (g.user["userId"],)
     ).fetchall()
 
-    savData = db.execute(
-        "SELECT * FROM savings WHERE userID = ?",
+# ? This will query and get you the budget amount for each categories
+    budgData = db.execute(
+        "SELECT categories.catName, budgets.budgetAmount FROM budgets INNER JOIN categories ON categories.catID = budgets.catID WHERE userID = ?",
         (g.user["userId"],)
     ).fetchall()
 
@@ -40,7 +45,7 @@ def dashboard():
             user = g.user["userId"]
             try:
                 db.execute(
-                    "INSERT INTO expenses(expenseName, expenseAmount, cattID, userID, expenseDate, payed) VALUES (?,?,?,?,?,?)",
+                    "INSERT INTO expenses(expenseName, expenseAmount, catID, userID, expenseDate, payed) VALUES (?,?,?,?,?,?)",
                     (title, exAmount, exCatt, user, expenseDate, didPay ),
                 )
                 db.commit()
@@ -49,20 +54,19 @@ def dashboard():
             else:
                 return redirect(url_for("views.dashboard"))
         else:
-            savTitle = request.form["savingTitle"]
-            savAmount = float(request.form["savingAmount"])
-            savDate = request.form["savingDate"]
+            budgCatt = request.form["budCatt"]
+            budgAmount = float(request.form["budgetAmount"])
             user = g.user["userId"]
 
             try:
                 db.execute(
-                    "INSERT INTO savings(savingName, savingAmount, savingDate, userID) VALUES (?,?,?,?)",
-                    (savTitle, savAmount, savDate, user,)
+                    "INSERT INTO budgets(catID, budgetAmount, userID) VALUES (?,?,?)",
+                    (budgCatt, budgAmount, user,)
                 )
                 db.commit()
             except db.IntegrityError:
                 print("There Was a Problem")
             else:
                 return redirect(url_for("views.dashboard"))
-
-    return render_template("dashboard.html", cattData = catt, exData = exCattData, savingsData = savData)
+    db.close()
+    return render_template("dashboard.html", catData = catt, exData = exCattData, budgetData = budgData)
