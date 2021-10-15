@@ -483,6 +483,18 @@ footer ul a{
 #expenseExpand:hover{
     cursor: pointer;
 }
+#budgetData{
+    display: grid;
+    width: 95%;
+    grid-template-columns: 1fr 1fr;
+    background-color: #DEEAD9;
+    margin: 40px;
+    border-radius: 15px;
+    padding-bottom: 20px;
+}
+.infoCards:nth-last-of-type(1){
+    grid-template-columns: 1fr;
+}
 @media(max-width: 880px){
     #landingSec{
         display: flex;

@@ -30,7 +30,7 @@ def dashboard():
         "SELECT categories.catName, sum(expenseAmount) AS 'exAmount', SUBSTR(expenseDate, 1, 7) AS dateInfo, expenseDate FROM expenses INNER JOIN categories ON categories.catID = expenses.catID WHERE expenses.userID = ? AND dateInfo = ?  GROUP BY catName" ,
         (g.user["userId"], date,)
     ).fetchall()
-    
+
 # ? This will query the DB and group by month and year and sum all the expenses of the month
     monthlyEx = db.execute(
          "SELECT SUBSTR(expenseDate, 1, 7) AS dateInfo, SUM(expenseAmount) AS sumTotal FROM expenses INNER JOIN categories ON categories.catID = expenses.catID WHERE expenses.userID = ? GROUP BY dateInfo",
@@ -39,8 +39,8 @@ def dashboard():
 
 # ? This will query and get you the budget amount for each categories
     budgData = db.execute(
-        "SELECT categories.catName, budgets.budgetAmount FROM budgets INNER JOIN categories ON categories.catID = budgets.catID WHERE userID = ?",
-        (g.user["userId"],)
+        "SELECT categories.catName, budgets.budgetAmount, sum(expenses.expenseAmount) as sumAmount, SUBSTR(expenses.expenseDate, 1, 7) AS dateInfo FROM budgets INNER JOIN categories ON categories.catID = budgets.catID INNER JOIN expenses on expenses.catID = categories.catID WHERE budgets.userID = ? AND dateInfo = ? GROUP BY categories.catID",
+        (g.user["userId"], date,)
     ).fetchall()
 
     if request.method == "POST":

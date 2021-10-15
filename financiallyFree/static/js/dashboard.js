@@ -12,6 +12,7 @@ const cattName = document.querySelectorAll(".cattName")
 const budName = document.querySelectorAll(".budName");
 const budgetAmount = document.querySelectorAll(".budgetAmount");
 const budgetsAmount = document.querySelector("#budgetsAmount");
+const exAmountBud = document.querySelectorAll(".exAmountBud");
 // * Bar chart variables
 const barTitles = document.querySelectorAll(".barTitles");
 const barSumTotal = document.querySelectorAll(".barSumTotal");
@@ -19,6 +20,7 @@ const monthlyBar = document.querySelector("#monthlyBar");
 // * expandButtonVariables
 const expenseExpand = document.querySelector("#expenseExpand")
 const moreInfo = document.querySelector("#moreInfo")
+
 // * Function in charge of creating rgb random colors
 const ranColor = ()=>{
     rgb = []
@@ -33,7 +35,7 @@ const retrieveExInfo = (amount, titles)=>{
     const expenseByCatt = []
     const rgbColors = []
     const labels = []
-    if(expenseAmount.length === 0){
+    if(amount.length === 0){
         return false
     }else{
         amount.forEach((d)=>{
@@ -74,10 +76,51 @@ const createChart = (chart ,d, chartType = "pie")=>{
     });
     return result
 }
+
+// ?Create stack bar chart for budget and expense data
+
+const getBudgetExpense = (dataInfo)=>{
+    const result = []
+    console.log(dataInfo)
+    dataInfo.forEach((d)=>{
+        result.push(d.textContent)
+    })
+    return result
+}
+const createBarStack = (chartLocal)=>{
+    const stackBar = retrieveExInfo(budgetAmount,budName)
+    const data = {
+        labels: stackBar.exTitles,
+        datasets: [
+          {
+            label: 'Budget Amount',
+            data: stackBar.expenseData,
+            backgroundColor: ranColor(),
+          },
+          {
+            label: 'Expense Amount',
+            data: getBudgetExpense(exAmountBud),
+            backgroundColor: ranColor(),
+          },
+        ]
+      };
+      let config = {
+        type: 'bar',
+        data: data,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false
+        }
+      };
+      let stack = new Chart(chartLocal, config);
+}
+
+// ? Declaring all the charts of the page
 let myChart = createChart(expenseChart, retrieveExInfo(sumExAmount, cattName))
-let budChart = createChart(savingChart, retrieveExInfo(budgetAmount, budName))
+let budChart = createBarStack(savingChart);
 let monthBar = createChart(monthlyBar, retrieveExInfo(barSumTotal, barTitles), "bar")
 
+// ?The sum of the aside expense and budget data
 sumExAmount.forEach((d)=>{
     expenseAmount.textContent = Number(expenseAmount.textContent) + Number(d.textContent)
     expenseAmount.textContent = Number(expenseAmount.textContent).toFixed(2);
@@ -87,7 +130,7 @@ budgetAmount.forEach((d)=>{
     budgetsAmount.textContent = Number(budgetsAmount.textContent).toFixed(2);
 });
 
-
+// ? Checks if the button has the - or + sign in the textcontent
 const checkButton = (data)=>{
     if (data.textContent === "-"){
         data.textContent = "+";
@@ -97,6 +140,7 @@ const checkButton = (data)=>{
     data.classList.toggle("greenButton")
 }
 
+// ? Events listeners to wait for the click of hiding info
 exExpandButton.addEventListener('click', ()=>{
     expenseForm.classList.toggle("hideForm")
     checkButton(exExpandButton);
