@@ -27,6 +27,11 @@
                 <p class="formTitles">Monthly Expenses</p>
                 <p class="amounts" id="expenseAmount">0</p>
                 <button id="expenseEx" class="plusButton">-</button>
+                {%if check%}
+                    {%for val in check%}
+                        <p>{{val}}</p>
+                    {%endfor%}
+                {%endif%}
                 <form id="dashExpenseForm" method="post" autocomplete="off">
                     <label for="eTitle">Expense Title</label>
                     <input name="expenseTitle" id="eTitle" type="text" placeholder="Expense Title">
@@ -40,10 +45,6 @@
                     <input name="expenseAmount" id="eAmount" type="text" placeholder="Expense Amount">
                     <label for="eDate">Expense Date</label>
                     <input name="exepenseDate" id="eDate" type="date">
-                    <select name="didPay" id="payed">
-                        <option value="Did payed">Havent Payed</option>
-                        <option value="Not Payed">Payed</option>
-                    </select>
                     <button name="expenseSub">Add</button>
                 </form>
             </div>
@@ -51,6 +52,11 @@
                 <p class="formTitles">Budget</p>
                 <p class="amounts" id="budgetsAmount">0</p>
                 <button id="savingEx" class="plusButton">-</button>
+                {%if checkBud%}
+                    {%for val in checkBud%}
+                        <p>{{val}}</p>
+                    {%endfor%}
+                {%endif%}
                 <form id="savingForm" method="post" autocomplete="off">
                     <label for="budCatt">Cattegory</label>
                     <select name="budCatt" id="budCatt">
@@ -60,7 +66,7 @@
                     </select>
                     <label for="budAmount">Savings Amount</label>
                     <input name="budgetAmount" id="budAmount" type="text" placeholder="Budget Amount">
-                    <button>Add</button>
+                    <button name="budgetButt">Add</button>
                 </form>
             </div>
         </aside>

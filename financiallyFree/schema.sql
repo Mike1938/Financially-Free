@@ -24,7 +24,6 @@ CREATE TABLE expenses(
     catID INTEGER NOT NULL,
     userID INTEGER NOT NULL,
     expenseDate TEXT NOT NULL,
-    payed TEXT NOT NULL DEFAULT "false",
     FOREIGN KEY(userID) REFERENCES users(userID),
     FOREIGN KEY(catID) REFERENCES categories(catID)
 );
