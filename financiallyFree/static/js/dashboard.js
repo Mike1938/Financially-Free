@@ -21,6 +21,17 @@ const monthlyBar = document.querySelector("#monthlyBar");
 const expenseExpand = document.querySelector("#expenseExpand")
 const allExpenses = document.querySelector("#allExpensesCont")
 
+// * Fixe Decimal Problem variables
+const fixDec = document.querySelectorAll(".fixDec");
+for(let i = 0; i < fixDec.length; i++){
+    const deciNum = Number(fixDec[i].textContent);
+    fixDec[i].textContent = deciNum.toFixed(2);
+}
+
+
+
+
+
 // * Function in charge of creating rgb random colors
 const ranColor = ()=>{
     rgb = []
@@ -134,10 +145,11 @@ budgetAmount.forEach((d)=>{
 const checkButton = (data)=>{
     if (data.textContent === "-"){
         data.textContent = "+";
+        data.classList.toggle("greenButton")
     }else{
         data.textContent = "-";
+        data.classList.toggle("redButton")
     }
-    data.classList.toggle("greenButton")
 }
 
 // ? Events listeners to wait for the click of hiding info

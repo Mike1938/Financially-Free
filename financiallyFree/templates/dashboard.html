@@ -88,7 +88,7 @@
                                 {%for d in exData%}
                                     <tr>
                                         <td><span class="cattName">{{d["catName"]}}</span></td>
-                                        <td>$<span class="sumExAmount">{{d["exAmount"]}}</span></td>
+                                        <td>$<span class="sumExAmount fixDec">{{d["exAmount"]}}</span></td>
                                         <td><span class="expenseDate">{{d["expenseDate"]}}</span></td>
                                     </tr>
                                 {%endfor%}
@@ -118,7 +118,7 @@
                                 {%for d in monthGEx%}
                                     <tr>
                                         <td><span class="barTitles">{{d["dateInfo"]}}</span></td>
-                                        <td>$<span class="barSumTotal">{{d["sumTotal"]}}</span></td>
+                                        <td>$<span class="barSumTotal fixDec">{{d["sumTotal"]}}</span></td>
                                     </tr>
                                 {%endfor%}
                             </tbody>
@@ -139,29 +139,16 @@
                         <button>Search</button>
                     </form>
                     <div id="allExInfo">
-                        <table class="dataTables">
-                            <thead>
-                                <tr>
-                                    <th>Title</th>
-                                    <th>Category</th>
-                                    <th>Expense Amount</th>
-                                    <th>Date</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {%for d in allExpense%}
-                                    <tr>
-                                        <td>{{d["expenseName"]}}</td>
-                                        <td>{{d["catName"]}}</td>
-                                        <td>{{d["expenseAmount"]}}</td>
-                                        <td>{{d["expenseDate"]}}</td>
-                                    </tr>
-                                {%endfor%}
-                            </tbody>
-                        </table>
+                        {%for d in allExpense%}
+                            <div class="allCards">
+                                <p class="allDates">{{d["expenseDate"]}} <span class="allExNames">{{d["expenseName"]}}</span></p>
+                                <p class="allStyles">Category: <span class="allCats">{{d["catName"]}}</span></p>
+                                <p class="allStyles">Amount <span class="allAmounts">${{d["expenseAmount"]}}</span></p>
+                            </div>
+                        {%endfor%}
                     </div>
                 </div>
-                <button id="expenseExpand">-</button>
+                <button id="expenseExpand">+</button>
             </div>
             <div class="infoCards">
                 <div id="budgetData">
@@ -183,7 +170,7 @@
                                     <tr>
                                         <td><span class="budName">{{d["catName"]}}</span></td>
                                         <td><span class="budgetAmount">{{d["budgetAmount"]}}</span></td>
-                                        <td><span class="exAmountBud">{{d["sumAmount"]}}</span></td>
+                                        <td><span class="exAmountBud fixDec">{{d["sumAmount"]}}</span></td>
                                     </tr>
                                 {%endfor%}
                             </tbody>

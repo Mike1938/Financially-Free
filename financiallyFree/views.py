@@ -49,7 +49,7 @@ def dashboard():
         searchDate = date
         
     allExpenses = db.execute(
-        "SELECT expenseName, categories.catName, expenseAmount, expenseDate, SUBSTR(expenseDate, 1,7) AS monthYear FROM expenses INNER JOIN categories ON categories.catID = expenses.catID WHERE expenses.userID = ? AND monthYear = ?",
+        "SELECT expenseName, categories.catName, expenseAmount, expenseDate, SUBSTR(expenseDate, 1,7) AS monthYear FROM expenses INNER JOIN categories ON categories.catID = expenses.catID WHERE expenses.userID = ? AND monthYear = ? ORDER BY expenseDate DESC",
         (g.user["userId"], searchDate,)
     ).fetchall()
 

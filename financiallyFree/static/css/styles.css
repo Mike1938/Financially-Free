@@ -243,7 +243,6 @@ footer ul a{
     display: flex;
     flex-direction: column;
     background-color: #fff;
-    height: 50%;
     width: 60%;
     border-radius: 20px;
     align-content: flex-end;
@@ -253,7 +252,7 @@ footer ul a{
 #signUp p{
     color: #255121;
     font-size: 3rem;
-    margin: 0;
+    margin: 10px 0;
 
 }
 #signUp .error{
@@ -269,9 +268,12 @@ footer ul a{
     text-indent: 10px;
     font-size: 1.1rem;
     width: 80%;
+    margin-bottom: 15px;
 }
 #signUp form label{
     font-size: 1.2rem;
+    display: block;
+    padding: 15px 0;
 }
 #signUp form button{
     height: 40px;
@@ -300,7 +302,6 @@ footer ul a{
 }
 #userName{
     font-size: 1.5rem;
-    margin: 10px;
 }
 .cards{
     display: flex;
@@ -376,6 +377,9 @@ footer ul a{
 .hideForm{
     display: none !important;
 }
+.redButton{
+    background-color: #F88989 !important;
+}
 .greenButton{
     background-color: #6DA05C !important;
 }
@@ -432,7 +436,7 @@ footer ul a{
 }
 
 .hideDiv{
-    display: none !important;
+    display: grid !important;
 }
 .list{
     margin: 0;
@@ -476,7 +480,7 @@ footer ul a{
     border-radius: 50%;
     width: 50px;
     height: 50px;
-    background-color: #F88989;
+    background-color: #6DA05C;
     font-size: 1.2rem;
     font-weight: 700;
     justify-self: flex-end;
@@ -498,7 +502,6 @@ footer ul a{
 }
 #allExpensesCont{
     width: 95%;
-    display: grid;
     grid-template-columns: 1fr;
     align-items: center;
     justify-items: center;
@@ -507,16 +510,74 @@ footer ul a{
     border-radius: 15px;
     grid-column: 1/3;
     padding-bottom: 40px;
+    display: none;
 }
 #searchEx{
     grid-column: 1/3;
     justify-self: flex-start;
+    width: 95%;
+    margin: 20px;
 }
+
 #allExInfo{
-    padding-top: 25px;
+    display: grid;
+    margin: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    width: 80%;
+    gap: 20px;
 }
-#allExInfo td{
-    width: 200px;
+.allExNames{
+    display: block;
+    font-size: 1.4rem;
+    word-spacing: 2px;
+}
+.allCards{
+    background-color: #fff;
+    border-radius: 10px;
+}
+.allDates{
+    font-size: 1.3rem;
+    background-color: #6A9957;
+    margin: 0;
+    padding: 8px;
+    color: #fff;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+}
+.allStyles{
+    margin-left: 10px;
+    font-size: 1.1rem;
+}
+.allStyles span{
+    display: block;
+}
+.allAmounts{
+    font-size: 2rem;
+    color: #65A55B;
+    font-weight: 600;
+    padding: 4px;
+}
+#searchEx select{
+    border: none;
+    width: 30%;
+    height: 40px;
+    border-radius: 8px;
+    text-indent: 8px;
+    outline: none;
+    
+}
+#searchEx button{
+    border: none;
+    height: 40px;
+    background-color: #6DA05C;
+    font-size: 1.1rem;
+    border-radius: 8px;
+    width: 15%;
+    transition: all ease-in 200ms;
+}
+#searchEx button:hover{
+    cursor: pointer;
+    background-color: #89C878;
 }
 @media(max-width: 1750px){
     #exByCat{
