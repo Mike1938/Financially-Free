@@ -17,6 +17,7 @@ def landingPage():
 @views.route('/dashboard', methods= ("GET", "POST"))
 @loginRequired
 def dashboard():
+    months = []
     db = get_db()
     date = f"{datetime.datetime.now().year}-{datetime.datetime.now().month}"
     readableDate = f"{datetime.datetime.now().strftime('%B')} - {datetime.datetime.now().year}" 
@@ -33,8 +34,23 @@ def dashboard():
 
     # ? This will query the DB and group by month and year and sum all the expenses of the month
     monthlyEx = db.execute(
-         "SELECT SUBSTR(expenseDate, 1, 7) AS dateInfo, SUM(expenseAmount) AS sumTotal FROM expenses INNER JOIN categories ON categories.catID = expenses.catID WHERE expenses.userID = ? GROUP BY dateInfo",
+         "SELECT SUBSTR(expenseDate, 1, 7) AS dateInfo, SUM(expenseAmount) AS sumTotal, expenseID FROM expenses INNER JOIN categories ON categories.catID = expenses.catID WHERE expenses.userID = ? GROUP BY dateInfo",
          (g.user["userId"],)
+    ).fetchall()
+    
+    # ? Looping to append the month and year, to be use in the all expenses list
+    for d in monthlyEx:
+        months.append(d["dateInfo"])
+
+    # ? This will query all the transactions of the month
+    if request.args.get("year"):
+        searchDate = request.args.get("year")
+    else:
+        searchDate = date
+        
+    allExpenses = db.execute(
+        "SELECT expenseName, categories.catName, expenseAmount, expenseDate, SUBSTR(expenseDate, 1,7) AS monthYear FROM expenses INNER JOIN categories ON categories.catID = expenses.catID WHERE expenses.userID = ? AND monthYear = ?",
+        (g.user["userId"], searchDate,)
     ).fetchall()
 
     # ? This will query and get you the budget amount for each categories
@@ -42,6 +58,9 @@ def dashboard():
         "SELECT categories.catName, budgets.budgetAmount, sum(expenses.expenseAmount) as sumAmount, SUBSTR(expenses.expenseDate, 1, 7) AS dateInfo FROM budgets INNER JOIN categories ON categories.catID = budgets.catID INNER JOIN expenses on expenses.catID = categories.catID WHERE budgets.userID = ? AND dateInfo = ? GROUP BY categories.catID",
         (g.user["userId"], date,)
     ).fetchall()
+
+    def stripInputs(data):
+        return data.strip()
     def checkInputs(valuesObj):
         errors = []
         for key, val in valuesObj.items():
@@ -52,11 +71,12 @@ def dashboard():
             return errors
         else:
             return None
+
     checkingEx = None
     checkingBudg = None
     if request.method == "POST":
         if 'expenseSub' in request.form:
-            title = request.form["expenseTitle"]
+            title = stripInputs(request.form["expenseTitle"])
             exCatt = request.form["cattegory"]
             try:
                 exAmount = float(request.form["expenseAmount"])
@@ -109,4 +129,4 @@ def dashboard():
                 else:
                     return redirect(url_for("views.dashboard"))
         db.close()
-    return render_template("dashboard.html", catData = catt, exData = exCattData, budgetData = budgData, dataDate = {"fullDate": date, "readDate": readableDate}, monthGEx = monthlyEx, check = checkingEx, checkBud = checkingBudg)
+    return render_template("dashboard.html", catData = catt, exData = exCattData, budgetData = budgData, dataDate = {"fullDate": date, "readDate": readableDate, "monthYear": months}, monthGEx = monthlyEx, check = checkingEx, checkBud = checkingBudg, allExpense = allExpenses)

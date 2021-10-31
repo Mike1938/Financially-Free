@@ -19,7 +19,7 @@ const barSumTotal = document.querySelectorAll(".barSumTotal");
 const monthlyBar = document.querySelector("#monthlyBar");
 // * expandButtonVariables
 const expenseExpand = document.querySelector("#expenseExpand")
-const moreInfo = document.querySelector("#moreInfo")
+const allExpenses = document.querySelector("#allExpensesCont")
 
 // * Function in charge of creating rgb random colors
 const ranColor = ()=>{
@@ -153,6 +153,6 @@ savExpandButton.addEventListener('click', ()=>{
 })
 
 expenseExpand.addEventListener('click', ()=>{
-    moreInfo.classList.toggle('hideDiv');
+    allExpenses.classList.toggle('hideDiv');
     checkButton(expenseExpand)
 })

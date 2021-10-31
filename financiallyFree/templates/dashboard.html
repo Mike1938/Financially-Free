@@ -29,7 +29,7 @@
                 <button id="expenseEx" class="plusButton">-</button>
                 {%if check%}
                     {%for val in check%}
-                        <p>{{val}}</p>
+                        <p class="error">{{val}}</p>
                     {%endfor%}
                 {%endif%}
                 <form id="dashExpenseForm" method="post" autocomplete="off">
@@ -54,7 +54,7 @@
                 <button id="savingEx" class="plusButton">-</button>
                 {%if checkBud%}
                     {%for val in checkBud%}
-                        <p>{{val}}</p>
+                        <p class="error">{{val}}</p>
                     {%endfor%}
                 {%endif%}
                 <form id="savingForm" method="post" autocomplete="off">
@@ -103,7 +103,7 @@
                 </div>
                 <div id="moreInfo">
                     <p class="secTitle">Expenses by month</p>
-                    <div id="monthExpense">
+                    <div class="monthExpense">
                         <table class="dataTables">
                             <thead>
                                 <tr>
@@ -128,11 +128,44 @@
                         <canvas id="monthlyBar"></canvas>
                     </div>
                 </div>
+                <div id="allExpensesCont">
+                    <p class="secTitle">Month Expenses</p>
+                    <form id="searchEx" method="get">
+                        <select name="year" id="">
+                            {%for d in dataDate["monthYear"]%}
+                                <option value="{{d}}">{{d}}</option>
+                            {%endfor%}
+                        </select>
+                        <button>Search</button>
+                    </form>
+                    <div id="allExInfo">
+                        <table class="dataTables">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Category</th>
+                                    <th>Expense Amount</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {%for d in allExpense%}
+                                    <tr>
+                                        <td>{{d["expenseName"]}}</td>
+                                        <td>{{d["catName"]}}</td>
+                                        <td>{{d["expenseAmount"]}}</td>
+                                        <td>{{d["expenseDate"]}}</td>
+                                    </tr>
+                                {%endfor%}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
                 <button id="expenseExpand">-</button>
             </div>
             <div class="infoCards">
                 <div id="budgetData">
-                    <p class="secTitle">Budget for the Moth</p>
+                    <p class="secTitle">Budget for the Month</p>
                     <div id="budgetInfo">
                         <table class="dataTables">
                             <thead>
