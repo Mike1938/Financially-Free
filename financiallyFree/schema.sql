@@ -33,6 +33,7 @@ create TABLE budgets(
     catID TEXT NOT NULL,
     budgetAmount REAL NOT NULL,
     userID INTEGER NOT NULL,
+    monthYear TEXT NOT NULL,
     FOREIGN KEY(userID) REFERENCES users(userID),
     FOREIGN KEY(catID) REFERENCES categories(catID)
 );

@@ -559,12 +559,12 @@ footer ul a{
 }
 #searchEx select{
     border: none;
-    width: 30%;
+    width: 40%;
     height: 40px;
     border-radius: 8px;
     text-indent: 8px;
     outline: none;
-    
+    font-size: 1.3rem;
 }
 #searchEx button{
     border: none;

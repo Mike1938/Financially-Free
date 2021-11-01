@@ -42,7 +42,7 @@
                         {%endfor%}
                     </select>
                     <label for="eAmount">Expense Amount</label>
-                    <input name="expenseAmount" id="eAmount" type="text" placeholder="Expense Amount">
+                    <input name="expenseAmount" id="eAmount" type="number" step=".01" placeholder="Expense Amount">
                     <label for="eDate">Expense Date</label>
                     <input name="exepenseDate" id="eDate" type="date">
                     <button name="expenseSub">Add</button>
@@ -64,13 +64,21 @@
                             <option value="{{data['catID']}}">{{data["catName"]}}</option>
                         {%endfor%}
                     </select>
-                    <label for="budAmount">Savings Amount</label>
-                    <input name="budgetAmount" id="budAmount" type="text" placeholder="Budget Amount">
+                    <label for="budAmount">Budget Amount</label>
+                    <input name="budgetAmount" id="budAmount" type="number" step=".01" placeholder="Budget Amount">
                     <button name="budgetButt">Add</button>
                 </form>
             </div>
         </aside>
         <div id="dashInfo">
+            <form id="searchEx" method="get">
+                <select name="yearMonth" id="">
+                    {%for d in dataDate["monthYear"]%}
+                        <option value="{{d}}">{{d}}</option>
+                    {%endfor%}
+                </select>
+                <button>Search</button>
+            </form>
             <div class="infoCards">
                 <div id="exByCat">
                     <p class="secTitle">Expenses for the month</p>
@@ -130,14 +138,6 @@
                 </div>
                 <div id="allExpensesCont">
                     <p class="secTitle">Month Expenses</p>
-                    <form id="searchEx" method="get">
-                        <select name="year" id="">
-                            {%for d in dataDate["monthYear"]%}
-                                <option value="{{d}}">{{d}}</option>
-                            {%endfor%}
-                        </select>
-                        <button>Search</button>
-                    </form>
                     <div id="allExInfo">
                         {%for d in allExpense%}
                             <div class="allCards">

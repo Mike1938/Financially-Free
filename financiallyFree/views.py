@@ -21,6 +21,43 @@ def dashboard():
     db = get_db()
     date = f"{datetime.datetime.now().year}-{datetime.datetime.now().month}"
     readableDate = f"{datetime.datetime.now().strftime('%B')} - {datetime.datetime.now().year}" 
+    # *Check if the user used the select month expenses(data in url)
+    if request.args.get("yearMonth"):
+        searchDate = request.args.get("yearMonth")
+    else:
+        searchDate = date
+    # * Function that turn month numbers to readable strings
+    def readableMonth(data):
+        dashLocation = data.find("-")
+        year = data[:dashLocation]
+        readableDate = data[dashLocation + 1:]
+        if readableDate == "01":
+            return f"{year} - January"
+        elif readableDate == "02":
+            return f"{year} - February"
+        elif readableDate == "03":
+            return f"{year} - March"
+        elif readableDate == "04":
+            return f"{year} - April"
+        elif readableDate == "05":
+            return f"{year} - May"
+        elif readableDate == "06":
+            return f"{year} - June"
+        elif readableDate == "07":
+            return f"{year} - July"
+        elif readableDate == "08":
+            return f"{year} - August"
+        elif readableDate == "09":
+            return f"{year} - September"
+        elif readableDate == "10":
+            return f"{year} - October"
+        elif readableDate == "11":
+            return f"{year} - November"
+        elif readableDate == "12":
+            return f"{year} - December"
+    
+    readMonthYear =readableMonth(searchDate)
+
     # ?This will query all the cattegories to be use as options for select tags
     catt = db.execute(
         "SELECT * FROM categories"
@@ -29,7 +66,7 @@ def dashboard():
     # ? This will query and search in expenses the sum of all the expenses group by categories
     exCattData = db.execute(
         "SELECT categories.catName, sum(expenseAmount) AS 'exAmount', SUBSTR(expenseDate, 1, 7) AS dateInfo, expenseDate FROM expenses INNER JOIN categories ON categories.catID = expenses.catID WHERE expenses.userID = ? AND dateInfo = ?  GROUP BY catName" ,
-        (g.user["userId"], date,)
+        (g.user["userId"], searchDate,)
     ).fetchall()
 
     # ? This will query the DB and group by month and year and sum all the expenses of the month
@@ -38,16 +75,11 @@ def dashboard():
          (g.user["userId"],)
     ).fetchall()
     
-    # ? Looping to append the month and year, to be use in the all expenses list
+    # ? Looping to append the month and year, to be use for check expenses month form
     for d in monthlyEx:
         months.append(d["dateInfo"])
 
     # ? This will query all the transactions of the month
-    if request.args.get("year"):
-        searchDate = request.args.get("year")
-    else:
-        searchDate = date
-        
     allExpenses = db.execute(
         "SELECT expenseName, categories.catName, expenseAmount, expenseDate, SUBSTR(expenseDate, 1,7) AS monthYear FROM expenses INNER JOIN categories ON categories.catID = expenses.catID WHERE expenses.userID = ? AND monthYear = ? ORDER BY expenseDate DESC",
         (g.user["userId"], searchDate,)
@@ -56,7 +88,7 @@ def dashboard():
     # ? This will query and get you the budget amount for each categories
     budgData = db.execute(
         "SELECT categories.catName, budgets.budgetAmount, sum(expenses.expenseAmount) as sumAmount, SUBSTR(expenses.expenseDate, 1, 7) AS dateInfo FROM budgets INNER JOIN categories ON categories.catID = budgets.catID INNER JOIN expenses on expenses.catID = categories.catID WHERE budgets.userID = ? AND dateInfo = ? GROUP BY categories.catID",
-        (g.user["userId"], date,)
+        (g.user["userId"], searchDate,)
     ).fetchall()
 
     def stripInputs(data):
@@ -66,7 +98,6 @@ def dashboard():
         for key, val in valuesObj.items():
             if not val:
                 errors.append(f"{key} was left empty...")
-        print(errors)
         if errors:
             return errors
         else:
@@ -78,11 +109,10 @@ def dashboard():
         if 'expenseSub' in request.form:
             title = stripInputs(request.form["expenseTitle"])
             exCatt = request.form["cattegory"]
-            try:
-                exAmount = float(request.form["expenseAmount"])
-                exAmount = "{:.2f}".format(exAmount)
-            except:
-                exAmount = ""
+
+            exAmount = float(request.form["expenseAmount"])
+            exAmount = format(exAmount, ".2f")
+
             expenseDate = request.form["exepenseDate"]
             user = g.user["userId"]
             inputVals = {
@@ -107,12 +137,12 @@ def dashboard():
                     return redirect(url_for("views.dashboard"))
         if 'budgetButt' in request.form:
             budgCatt = request.form["budCatt"]
-            try:
-                budgAmount = float(request.form["budgetAmount"])
-                budgAmount = "{:.2f}".format(budgAmount)
-            except:
-                budgAmount = ""
+
+            budgAmount = float(request.form["budgetAmount"])
+            budgAmount = format(budgAmount, ".2f")
+            
             user = g.user["userId"]
+
             inputVals = {
                 "Budget Amount": budgAmount
             }
@@ -129,4 +159,4 @@ def dashboard():
                 else:
                     return redirect(url_for("views.dashboard"))
         db.close()
-    return render_template("dashboard.html", catData = catt, exData = exCattData, budgetData = budgData, dataDate = {"fullDate": date, "readDate": readableDate, "monthYear": months}, monthGEx = monthlyEx, check = checkingEx, checkBud = checkingBudg, allExpense = allExpenses)
+    return render_template("dashboard.html", catData = catt, exData = exCattData, budgetData = budgData, dataDate = {"fullDate": date, "readDate": readMonthYear, "monthYear": months}, monthGEx = monthlyEx, check = checkingEx, checkBud = checkingBudg, allExpense = allExpenses)
