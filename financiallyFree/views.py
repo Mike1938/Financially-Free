@@ -17,7 +17,7 @@ def landingPage():
 @views.route('/dashboard', methods= ("GET", "POST"))
 @loginRequired
 def dashboard():
-    months = []
+    months = {}
     db = get_db()
     date = f"{datetime.datetime.now().year}-{datetime.datetime.now().month}"
     readableDate = f"{datetime.datetime.now().strftime('%B')} - {datetime.datetime.now().year}" 
@@ -77,22 +77,25 @@ def dashboard():
     
     # ? Looping to append the month and year, to be use for check expenses month form
     for d in monthlyEx:
-        months.append(d["dateInfo"])
+        months[readableMonth(d["dateInfo"])] = d["dateInfo"]
 
     # ? This will query all the transactions of the month
     allExpenses = db.execute(
-        "SELECT expenseName, categories.catName, expenseAmount, expenseDate, SUBSTR(expenseDate, 1,7) AS monthYear FROM expenses INNER JOIN categories ON categories.catID = expenses.catID WHERE expenses.userID = ? AND monthYear = ? ORDER BY expenseDate DESC",
+        "SELECT expenseName, categories.catName, printf('%.2f',expenseAmount) as exAmount, expenseDate, SUBSTR(expenseDate, 1,7) AS monthYear FROM expenses INNER JOIN categories ON categories.catID = expenses.catID WHERE expenses.userID = ? AND monthYear = ? ORDER BY expenseDate DESC",
         (g.user["userId"], searchDate,)
     ).fetchall()
 
     # ? This will query and get you the budget amount for each categories
     budgData = db.execute(
-        "SELECT categories.catName, budgets.budgetAmount, sum(expenses.expenseAmount) as sumAmount, SUBSTR(expenses.expenseDate, 1, 7) AS dateInfo FROM budgets INNER JOIN categories ON categories.catID = budgets.catID INNER JOIN expenses on expenses.catID = categories.catID WHERE budgets.userID = ? AND dateInfo = ? GROUP BY categories.catID",
-        (g.user["userId"], searchDate,)
+        "SELECT categories.catName, budgets.budgetAmount, sum(expenses.expenseAmount) as sumAmount, SUBSTR(expenses.expenseDate, 1, 7) AS dateInfo, monthYear FROM budgets INNER JOIN categories ON categories.catID = budgets.catID INNER JOIN expenses on expenses.catID = categories.catID WHERE budgets.userID = ? AND dateInfo = ? AND monthYear = ? GROUP BY categories.catID",
+        (g.user["userId"], searchDate, searchDate,)
     ).fetchall()
 
+    # ? function to strip string whitespaces
     def stripInputs(data):
         return data.strip()
+
+    # ?Function to check if the values are not empty return none if no errors
     def checkInputs(valuesObj):
         errors = []
         for key, val in valuesObj.items():
@@ -105,14 +108,18 @@ def dashboard():
 
     checkingEx = None
     checkingBudg = None
+
+    # ? Post section of the dasboard
     if request.method == "POST":
         if 'expenseSub' in request.form:
             title = stripInputs(request.form["expenseTitle"])
             exCatt = request.form["cattegory"]
-
-            exAmount = float(request.form["expenseAmount"])
-            exAmount = format(exAmount, ".2f")
-
+            try:
+                exAmount = float(request.form["expenseAmount"])
+                exAmount = format(exAmount, ".2f")
+            except:
+                exAmount= ""
+            
             expenseDate = request.form["exepenseDate"]
             user = g.user["userId"]
             inputVals = {
@@ -137,21 +144,29 @@ def dashboard():
                     return redirect(url_for("views.dashboard"))
         if 'budgetButt' in request.form:
             budgCatt = request.form["budCatt"]
+            try:
+                budgAmount = float(request.form["budgetAmount"])
+                budgAmount = format(budgAmount, ".2f")
+            except:
+                budgAmount = ""
+        
+            budgMonth = request.form["month"]
+            budgYear = str(request.form["year"])
 
-            budgAmount = float(request.form["budgetAmount"])
-            budgAmount = format(budgAmount, ".2f")
-            
             user = g.user["userId"]
 
             inputVals = {
-                "Budget Amount": budgAmount
+                "Budget Amount": budgAmount,
+                "Budget Month": budgMonth,
+                "Budget Year": budgYear
             }
+            monthYear = f"{budgYear}-{budgMonth}"
             checkingBudg = checkInputs(inputVals)
             if checkingBudg is None:
                 try:
                     db.execute(
-                        "INSERT INTO budgets(catID, budgetAmount, userID) VALUES (?,?,?)",
-                        (budgCatt, budgAmount, user,)
+                        "INSERT INTO budgets(catID, budgetAmount, monthYear, userID) VALUES (?,?,?,?)",
+                        (budgCatt, budgAmount, monthYear, user,)
                     )
                     db.commit()
                 except db.IntegrityError:
