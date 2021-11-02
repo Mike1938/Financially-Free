@@ -141,7 +141,7 @@ def dashboard():
                 except db.IntegrityError:
                     print("There was an error")
                 else:
-                    return redirect(url_for("views.dashboard"))
+                    return redirect(request.url)
         if 'budgetButt' in request.form:
             budgCatt = request.form["budCatt"]
             try:
@@ -172,6 +172,6 @@ def dashboard():
                 except db.IntegrityError:
                     print("There Was a Problem")
                 else:
-                    return redirect(url_for("views.dashboard"))
+                    return redirect(request.url)
         db.close()
     return render_template("dashboard.html", catData = catt, exData = exCattData, budgetData = budgData, dataDate = {"fullDate": date, "readDate": readMonthYear, "monthYear": months}, monthGEx = monthlyEx, check = checkingEx, checkBud = checkingBudg, allExpense = allExpenses)
