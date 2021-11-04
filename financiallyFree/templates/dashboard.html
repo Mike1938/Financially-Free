@@ -160,7 +160,10 @@
                             <div class="allCards">
                                 <p class="allDates">{{d["expenseDate"]}} <span class="allExNames">{{d["expenseName"]}}</span></p>
                                 <p class="allStyles">Category: <span class="allCats">{{d["catName"]}}</span></p>
-                                <p class="allStyles">Amount <span class="allAmounts">${{d["exAmount"]}}</span></p>
+                                <p class="allStyles"> <span class="amountWord">Amount</span> <span class="allAmounts">${{d["exAmount"]}}</span></p>
+                                <form method="post">
+                                    <button value="{{d['expenseID']}}" name="deleteExpense" id="deleteEx"><img src="{{url_for('static', filename='./images/trash-can.svg')}}" alt="Trash Can Image"></button>
+                                </form>
                             </div>
                         {%endfor%}
                     </div>
@@ -202,6 +205,31 @@
             </div>
         </div>
     </section>
+    <footer>
+        <div class="socials">
+            <a href="https://github.com/Mike1938" target="_"><img src="{{url_for('static', filename='./images/logo-github.svg')}}" alt="GitHub Link"></a>
+            <a href="https://www.linkedin.com/" target="_"><img src="{{url_for('static', filename='./images/logo-linkedin.svg')}}" alt="Linkedin"></a>
+        </div>
+        <div id="otherPages">
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/login">Login</a></li>
+                {%if g.user%}
+                    <li><a href="/Dashboard">DashBoard</a></li>
+                {%else%}
+                    <li><a href="/signup">Signup</a></li>
+                {%endif%}
+            </ul>
+        </div>
+        <div class="socials">
+            <a href="https://twitter.com/home" target="_"><img src="{{url_for('static', filename='./images/logo-twitter.svg')}}" alt="Twitter Link"></a>
+            <a href="" target="_"><img src="{{url_for('static', filename='./images/mail-outline.svg')}}" alt="Mail Link"></a>
+        </div>
+        <div id="backToTop">
+            <a href="#top"><button>Back To Top</button></a>
+        </div>
+        <p class="signature">Malsan Inc. 2021</p>
+    </footer>
     <script src="{{url_for('static', filename= './js/dashboard.js')}}"></script>
 </body>
 </html>

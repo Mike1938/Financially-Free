@@ -33,7 +33,7 @@ def verifyUsers(user, userPass,fName = None, lName = None):
 @auth.route('/register', methods = ('GET', 'POST'))
 def register():
     if g.user:
-        return redirect(url_for("views.landingPage"))
+        return redirect(url_for("views.dashboard"))
     checkErr = None
     if request.method == 'POST':
         username = request.form['username']

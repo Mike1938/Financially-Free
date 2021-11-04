@@ -176,6 +176,7 @@ footer{
     align-items: center;
     height: 50%;
     background-color: #7D9C73;
+    
 }
 
 footer ul{
@@ -188,6 +189,10 @@ footer ul a{
     font-size: 1.2rem;
     text-decoration: none;
     color: #255121;
+}
+.signature{
+    text-align: center;
+    grid-column: 1/4;
 }
 #otherPages li{
     margin: 15px;
@@ -295,7 +300,7 @@ footer ul a{
 #dashboard{
     display: grid;
     grid-template-columns: 20% 80%;
-    height: 100%;
+    margin-bottom: 100px;
 }
 #dashboardBody{
     background-color: #C8DBB1;
@@ -319,6 +324,13 @@ footer ul a{
 #dashForms{
     margin-left: 20px;
     text-align: center;
+}
+#dashForms #userName{
+    padding: 20px;
+    background-color: #6A9957;
+    border-radius: 15px;
+    font-size: 1.6rem;
+    color: #fff;
 }
 .formTitles{
     margin-left: 10px;
@@ -436,7 +448,7 @@ footer ul a{
 #moreInfo{
     width: 95%;
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
     align-items: center;
     justify-items: center;
     margin-top: 50px;
@@ -538,7 +550,7 @@ footer ul a{
     grid-column: 1/3;
     justify-self: flex-start;
     width: 95%;
-    margin: 20px;
+    margin: 32px;
 }
 
 #allExInfo{
@@ -546,7 +558,7 @@ footer ul a{
     margin: 10px;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     width: 80%;
-    gap: 20px;
+    gap: 30px;
 }
 .allExNames{
     display: block;
@@ -556,6 +568,8 @@ footer ul a{
 .allCards{
     background-color: #fff;
     border-radius: 10px;
+    display: flex;
+    flex-direction: column;
 }
 .allDates{
     font-size: 1.3rem;
@@ -568,7 +582,11 @@ footer ul a{
 }
 .allStyles{
     margin-left: 10px;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
+    height: 100%;
+}
+.amountWord{
+    font-size: 1.4rem;
 }
 .allStyles span{
     display: block;
@@ -602,12 +620,58 @@ footer ul a{
     cursor: pointer;
     background-color: #89C878;
 }
+#searchEx label{
+    font-size: 1.3rem;
+    display: block;
+    margin: 15px 0;
+}
+#dashForms .error{
+    margin-bottom: 10px;
+}
+#deleteEx{
+    border: none;
+    background-color: #fff;
+    transition: all ease-in 200ms;
+    border-radius: 10px 0 10px 0;
+    padding: 4px;
+}
+.allCards form{
+    display: flex;
+    justify-content: flex-end;
+}
+#deleteEx img{
+    width: 30px;
+    height: 30px;
+}
+#deleteEx:hover{
+    background-color: #F88989;
+    cursor: pointer;
+}
 @media(max-width: 1750px){
     #exByCat{
         grid-column: 1/3;
     }
     #moreInfo{
         grid-column: 1/3;
+    }
+}
+@media(max-width:1350px){
+    #budgetData{
+        grid-template-columns: 1fr;
+    }
+    #budgetData .secTitle{
+        grid-column: 1/2;
+    }
+}
+@media(max-width: 1280px){
+    #exByCat{
+        grid-template-columns: 1fr;
+    }
+    .secTitle{
+        grid-column: 1/2;
+    }
+    #moreInfo{
+        grid-template-columns: 1fr;
     }
 }
 @media(max-width: 880px){
@@ -624,9 +688,20 @@ footer ul a{
         flex-direction: column;
         align-items: center;
     }
+    #title button{
+        width: 100%;
+    }
+    #title a{
+        width: 50%;
+    }
+    #headerBox h2{
+        font-size: 1.3rem;
+    }
     #aboutApp{
         grid-template-columns: 1fr;
         padding-bottom: 18rem;
+        height: auto;
+        gap: 50px;
     }
     #headerBox{
         grid-column: 1/2;

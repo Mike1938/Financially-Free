@@ -92,7 +92,6 @@ const createChart = (chart ,d, chartType = "pie")=>{
 
 const getBudgetExpense = (dataInfo)=>{
     const result = []
-    console.log(dataInfo)
     dataInfo.forEach((d)=>{
         result.push(d.textContent)
     })

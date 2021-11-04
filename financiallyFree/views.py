@@ -1,5 +1,6 @@
 import datetime
 from logging import error
+from os import close
 import re
 from flask import Blueprint, render_template , request , g
 from flask.helpers import url_for
@@ -81,7 +82,7 @@ def dashboard():
 
     # ? This will query all the transactions of the month
     allExpenses = db.execute(
-        "SELECT expenseName, categories.catName, printf('%.2f',expenseAmount) as exAmount, expenseDate, SUBSTR(expenseDate, 1,7) AS monthYear FROM expenses INNER JOIN categories ON categories.catID = expenses.catID WHERE expenses.userID = ? AND monthYear = ? ORDER BY expenseDate DESC",
+        "SELECT expenseName, categories.catName, printf('%.2f',expenseAmount) as exAmount, expenseDate, SUBSTR(expenseDate, 1,7) AS monthYear, expenseID FROM expenses INNER JOIN categories ON categories.catID = expenses.catID WHERE expenses.userID = ? AND monthYear = ? ORDER BY expenseDate DESC",
         (g.user["userId"], searchDate,)
     ).fetchall()
 
@@ -163,15 +164,42 @@ def dashboard():
             monthYear = f"{budgYear}-{budgMonth}"
             checkingBudg = checkInputs(inputVals)
             if checkingBudg is None:
-                try:
+
+                # * This check if the budget has already been set
+                checkBudg = db.execute(
+                "SELECT budgetID FROM budgets WHERE userID = ? AND catID = ? AND monthYear = ?",
+                (user, budgCatt, monthYear,)
+                ).fetchone()
+                if checkBudg:
+                    # *This is updating the set budget to the new amount
                     db.execute(
-                        "INSERT INTO budgets(catID, budgetAmount, monthYear, userID) VALUES (?,?,?,?)",
-                        (budgCatt, budgAmount, monthYear, user,)
+                        "UPDATE budgets SET budgetAmount = ? WHERE budgetID =?",
+                        (budgAmount, checkBudg["budgetID"],)
                     )
                     db.commit()
-                except db.IntegrityError:
-                    print("There Was a Problem")
                 else:
-                    return redirect(request.url)
+                    try:
+                        db.execute(
+                            "INSERT INTO budgets(catID, budgetAmount, monthYear, userID) VALUES (?,?,?,?)",
+                            (budgCatt, budgAmount, monthYear, user,)
+                        )
+                        db.commit()
+                    except db.IntegrityError:
+                        print("There Was a Problem")
+                    else:
+                        return redirect(request.url)
+        # * This is the delete expense section
+        if 'deleteExpense' in request.form:
+            expenseId = request.form["deleteExpense"]
+            try:
+                db.execute(
+                    "DELETE FROM expenses WHERE expenseID = ?",
+                    (expenseId,)
+                )
+                db.commit()
+            except:
+                print("There was a problem")
+            else:
+                return redirect(request.url)
         db.close()
     return render_template("dashboard.html", catData = catt, exData = exCattData, budgetData = budgData, dataDate = {"fullDate": date, "readDate": readMonthYear, "monthYear": months}, monthGEx = monthlyEx, check = checkingEx, checkBud = checkingBudg, allExpense = allExpenses)

@@ -58,7 +58,11 @@
             <ul>
                 <li><a href="/">Home</a></li>
                 <li><a href="/login">Login</a></li>
-                <li><a href="/Dashboard">DashBoard</a></li>
+                {%if g.user%}
+                    <li><a href="/Dashboard">DashBoard</a></li>
+                {%else%}
+                    <li><a href="/signup">Signup</a></li>
+                {%endif%}  
             </ul>
         </div>
         <div class="socials">
@@ -68,6 +72,7 @@
         <div id="backToTop">
             <a href="#top"><button>Back To Top</button></a>
         </div>
+        <p class="signature">Malsan Inc. 2021</p>
     </footer>
     <script src="{{url_for('static', filename='./js/landing.js')}}"></script>
 </body>
