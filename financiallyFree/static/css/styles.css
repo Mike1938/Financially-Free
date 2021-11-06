@@ -325,6 +325,9 @@ footer ul a{
     margin-left: 20px;
     text-align: center;
 }
+#allExSel{
+    background-color: #fff;
+}
 #dashForms #userName{
     padding: 20px;
     background-color: #6A9957;
@@ -357,8 +360,11 @@ footer ul a{
     flex-direction: column;
     align-items: center;
 }
-#dashExpenseForm label{
-    margin-top: 5px;
+#dashForms label{
+    margin-top: 14px;
+}
+#dashForms .error{
+    margin: 10px;
 }
 #dashForms input, #dashForms select{
     width: 80%;
