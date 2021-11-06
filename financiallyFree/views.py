@@ -87,29 +87,10 @@ def dashboard():
     ).fetchall()
 
     # ? This will query and get you the budget amount for each categories
-    # budgData = db.execute(
-    #     "SELECT categories.catName, budgets.budgetAmount, sum(expenses.expenseAmount) as sumAmount, SUBSTR(expenses.expenseDate, 1, 7) AS dateInfo, monthYear FROM budgets INNER JOIN categories ON categories.catID = budgets.catID INNER JOIN expenses on expenses.catID = categories.catID WHERE budgets.userID = ? AND dateInfo = ? AND monthYear = ? GROUP BY categories.catID",
-    #     (g.user["userId"], searchDate, searchDate,)
-    # ).fetchall()
-
-    budgetInfo = db.execute(
-        "SELECT categories.catName, budgets.budgetAmount FROM budgets INNER JOIN categories ON categories.catID = budgets.catID WHERE userID = ? AND monthYear = ? ORDER BY categories.catID",
-        (g.user["userId"], searchDate,)
+    budgData = db.execute(
+        "SELECT categories.catName, budgets.budgetAmount, sum(expenses.expenseAmount) as sumAmount, SUBSTR(expenses.expenseDate, 1, 7) AS dateInfo, monthYear FROM budgets INNER JOIN categories ON categories.catID = budgets.catID INNER JOIN expenses on expenses.catID = categories.catID WHERE budgets.userID = ? AND dateInfo = ? AND monthYear = ? GROUP BY categories.catID",
+        (g.user["userId"], searchDate, searchDate,)
     ).fetchall()
-
-    expenseSum = db.execute(
-        "SELECT categories.catName, sum(expenseAmount) AS expenseSum, SUBSTR(expenses.expenseDate, 1, 7) AS dateInfo FROM expenses INNER JOIN categories ON categories.catID = expenses.catID WHERE userID = ? AND dateInfo = ? GROUP BY categories.catID ORDER BY categories.catID",
-        (g.user["userId"], searchDate,)
-    ).fetchall()
-    budgeteLen = len(budgetInfo)
-    budgetExpen = []
-    for num in range(0, budgeteLen):
-        budgetExpen.append({
-            "category": budgetInfo[num]["catName"],
-            "budgetAmount": budgetInfo[num]["budgetAmount"],
-            "expenseAmount": expenseSum[num]["expenseSum"]
-        })
-        print(budgetExpen)
 
     # ? function to strip string whitespaces
     def stripInputs(data):
@@ -221,4 +202,4 @@ def dashboard():
             else:
                 return redirect(request.url)
         db.close()
-    return render_template("dashboard.html", catData = catt, exData = exCattData, budgetData = budgetInfo, expenseD = expenseSum, dataDate = {"fullDate": date, "readDate": readMonthYear, "monthYear": months}, monthGEx = monthlyEx, check = checkingEx, checkBud = checkingBudg, allExpense = allExpenses)
+    return render_template("dashboard.html", catData = catt, exData = exCattData, budgetData = budgData,  dataDate = {"fullDate": date, "readDate": readMonthYear, "monthYear": months}, monthGEx = monthlyEx, check = checkingEx, checkBud = checkingBudg, allExpense = allExpenses)
