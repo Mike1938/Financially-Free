@@ -78,9 +78,9 @@ def login():
             ).fetchone()
 
             if user is None:
-                error = ["User could not be found"]
+                error = ["User could not be found..."]
             elif not check_password_hash(user['userPass'], password):
-                error = ["password is incorrect please try again"]
+                error = ["Password is incorrect, please try again..."]
             if error is None:
                 session.clear()
                 session['userId'] = user['userID']

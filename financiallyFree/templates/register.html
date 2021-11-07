@@ -60,11 +60,11 @@
             <div id="otherPages">
                 <ul>
                     <li><a href="/">Home</a></li>
-                    <li><a href="/login">Login</a></li>
+                    <li><a href="/auth/login">Login</a></li>
                     {%if g.user%}
                         <li><a href="/Dashboard">DashBoard</a></li>
                     {%else%}
-                        <li><a href="/signup">Signup</a></li>
+                        <li><a href="/auth/register">Signup</a></li>
                     {%endif%}
                 </ul>
             </div>

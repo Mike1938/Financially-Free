@@ -204,6 +204,7 @@ footer ul a{
     border-radius: 8px;
 }
 #otherPages{
+    width: 40%;
     background-color: #fff;
     border-radius: 15px;
     padding: 30px;
@@ -288,6 +289,7 @@ footer ul a{
     transition: all ease-in 200ms;
     font-size: 1.2rem;
     color: #fff;
+    margin-top: 20px;
 }
 #signUp form button:hover{
     cursor: pointer;
@@ -714,6 +716,7 @@ footer ul a{
     }
     #headerBox h2{
         font-size: 1.3rem;
+        word-spacing: 3px;
     }
     #aboutApp{
         grid-template-columns: 1fr;
