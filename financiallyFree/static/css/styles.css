@@ -665,6 +665,12 @@ footer ul a{
     #budgetData{
         grid-template-columns: 1fr;
     }
+    #budgetInfo{
+        justify-self: center;
+    }
+    #budgetChart{
+        width: 90% !important;
+    }
     #budgetData .secTitle{
         grid-column: 1/2;
     }
@@ -672,12 +678,18 @@ footer ul a{
 @media(max-width: 1280px){
     #exByCat{
         grid-template-columns: 1fr;
+        justify-items: center;
     }
     .secTitle{
         grid-column: 1/2;
     }
     #moreInfo{
         grid-template-columns: 1fr;
+    }
+}
+@media(max-width: 1249px){
+    #dashboard{
+        display: block;
     }
 }
 @media(max-width: 880px){

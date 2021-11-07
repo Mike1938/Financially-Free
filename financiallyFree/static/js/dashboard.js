@@ -3,7 +3,7 @@ const savExpandButton = document.querySelector("#savingEx");
 const expenseForm = document.querySelector("#dashExpenseForm");
 const savingForm = document.querySelector("#savingForm");
 const expenseChart = document.querySelector("#expenseChart");
-const savingChart = document.querySelector("#savingsChart");
+const budgetChart = document.querySelector("#budgetChart");
 // * Expenses variables
 const sumExAmount = document.querySelectorAll(".sumExAmount");
 const expenseAmount = document.querySelector("#expenseAmount");
@@ -127,7 +127,7 @@ const createBarStack = (chartLocal)=>{
 
 // ? Declaring all the charts of the page
 let myChart = createChart(expenseChart, retrieveExInfo(sumExAmount, cattName))
-let budChart = createBarStack(savingChart);
+let budChart = createBarStack(budgetChart);
 let monthBar = createChart(monthlyBar, retrieveExInfo(barSumTotal, barTitles), "bar")
 
 // ?The sum of the aside expense and budget data

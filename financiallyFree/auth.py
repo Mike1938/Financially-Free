@@ -9,6 +9,7 @@ from financiallyFree.db import get_db
 
 # ? Blueprint, to be able to route using /auth
 auth = Blueprint('auth', __name__)
+#  ? Function that verifies the user input
 def verifyUsers(user, userPass,fName = None, lName = None):
     error = []
     if not user:

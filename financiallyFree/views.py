@@ -21,12 +21,13 @@ def dashboard():
     months = {}
     db = get_db()
     date = f"{datetime.datetime.now().year}-{datetime.datetime.now().month}"
-    readableDate = f"{datetime.datetime.now().strftime('%B')} - {datetime.datetime.now().year}" 
+    
     # *Check if the user used the select month expenses(data in url)
     if request.args.get("yearMonth"):
         searchDate = request.args.get("yearMonth")
     else:
         searchDate = date
+
     # * Function that turn month numbers to readable strings
     def readableMonth(data):
         dashLocation = data.find("-")
@@ -86,7 +87,7 @@ def dashboard():
         (g.user["userId"], searchDate,)
     ).fetchall()
 
-    # ? This will query and get you the budget amount for each categories
+    # ? This will query and get you the budget amount and expense amount for each categories
     budgData = db.execute(
         "SELECT categories.catName, budgets.budgetAmount, sum(expenses.expenseAmount) as sumAmount, SUBSTR(expenses.expenseDate, 1, 7) AS dateInfo, monthYear FROM budgets INNER JOIN categories ON categories.catID = budgets.catID INNER JOIN expenses on expenses.catID = categories.catID WHERE budgets.userID = ? AND dateInfo = ? AND monthYear = ? GROUP BY categories.catID",
         (g.user["userId"], searchDate, searchDate,)
@@ -107,6 +108,7 @@ def dashboard():
         else:
             return None
 
+    # * Variable to be use with the if validation of expenses and budget
     checkingEx = None
     checkingBudg = None
 
@@ -143,6 +145,8 @@ def dashboard():
                     print("There was an error")
                 else:
                     return redirect(request.url)
+
+        # ? Budget post section
         if 'budgetButt' in request.form:
             budgCatt = request.form["budCatt"]
             try:

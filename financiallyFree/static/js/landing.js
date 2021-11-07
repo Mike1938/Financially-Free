@@ -47,7 +47,7 @@ const createChart = (chart, amount= data, title = labels, bg = backgroundColor)=
     return result
 }
 
-// *Function capable of doin the sum of all the expenses
+// *Function capable of doing the sum of all the expenses
 const sumExpenses = (data)=>{
     let sum = 0;
     data.forEach((d)=>{
@@ -70,13 +70,11 @@ expenseForm.addEventListener('submit',(e)=>{
         errorChecking[0].classList.add('error')
         errorChecking[0].textContent = "Title cannot be left empty"
     }
-    if(isNaN(cost)){
-        errorChecking[1].classList.add('error')
-        errorChecking[1].textContent = "Cannot be text, must be number"
-    }
-    else if(cost <= 0){
+    
+    if(cost <= 0){
         errorChecking[1].classList.add('error')
         errorChecking[1].textContent = "Cannot less or equal to 0"
+        cost = false
     }
     // * After verification of input if both are true then all data is push to chart
     if(title && cost){

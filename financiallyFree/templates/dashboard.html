@@ -1,233 +1,234 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.1/chart.min.js" integrity="sha512-Wt1bJGtlnMtGP0dqNFH1xlkLBNpEodaiQ8ZN5JLA5wpc1sUlk/O5uuOMNgvzddzkpvZ9GLyYNa8w2s7rqiTk5Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <link rel="stylesheet" href="{{url_for('static', filename='./css/styles.css')}}">
-    <title>Dashboard</title>
-</head>
-<body id="dashboardBody">
-    <nav>
-        <div id="navLinks">
-            <a href="/">Financially Free</a>
-            {%if g.user%}
-            <a href="/dashboard">DashBoard</a>
-            <a href="/auth/logout">Logout</a>
-            {%else%}
-            <a href="/auth/login">Login</a>
-            {%endif%}    
-        </div>
-    </nav>
-    <section id="dashboard">
-        <aside id="dashForms">
-            <p id="userName">Welcome {{g.user['fName']}}</p>
-            <div class ="cards" id="expenses">
-                <p class="formTitles">Monthly Expenses</p>
-                <p class="amounts" id="expenseAmount">0</p>
-                <button id="expenseEx" class="plusButton">-</button>
-                {%if check%}
-                    {%for val in check%}
-                        <p class="error">{{val}}</p>
-                    {%endfor%}
-                {%endif%}
-                <form id="dashExpenseForm" method="post" autocomplete="off">
-                    <label for="eTitle">Expense Title</label>
-                    <input name="expenseTitle" id="eTitle" type="text" placeholder="Expense Title">
-                    <label for="cattegory">Expense Category</label>
-                    <select name="cattegory" id="cattegory">
-                        {%for data in catData%}
-                            <option value="{{data['catID']}}">{{data["catName"]}}</option>
-                        {%endfor%}
-                    </select>
-                    <label for="eAmount">Expense Amount</label>
-                    <input name="expenseAmount" id="eAmount" type="number" step=".01" placeholder="Expense Amount">
-                    <label for="eDate">Expense Date</label>
-                    <input name="exepenseDate" id="eDate" type="date">
-                    <button name="expenseSub">Add</button>
-                </form>
-            </div>
-            <div class="cards" id="savings">
-                <p class="formTitles">Budget</p>
-                <p class="amounts" id="budgetsAmount">0</p>
-                <button id="savingEx" class="plusButton">-</button>
-                {%if checkBud%}
-                    {%for val in checkBud%}
-                        <p class="error">{{val}}</p>
-                    {%endfor%}
-                {%endif%}
-                <form id="savingForm" method="post" autocomplete="off">
-                    <label for="budCatt">Cattegory</label>
-                    <select name="budCatt" id="budCatt">
-                        {%for data in catData%}
-                            <option value="{{data['catID']}}">{{data["catName"]}}</option>
-                        {%endfor%}
-                    </select>
-                    <label for="budAmount">Budget Amount</label>
-                    <input name="budgetAmount" id="budAmount" type="number" step=".01" placeholder="Budget Amount">
-                    <select name="month" id="budgMonth">
-                        <option value="01">January</option>
-                        <option value="02">February</option>
-                        <option value="03">March</option>
-                        <option value="04">April</option>
-                        <option value="05">May</option>
-                        <option value="06">June</option>
-                        <option value="07">July</option>
-                        <option value="08">August</option>
-                        <option value="09">September</option>
-                        <option value="10">October</option>
-                        <option value="11">November</option>
-                        <option value="12">December</option>
-                    </select>
-                    <input name="year" type="number" min="1950" max="2099" step="1" value="2021">
-                    <button name="budgetButt">Add</button>
-                </form>
-            </div>
-        </aside>
-        <div id="dashInfo">
-            <form id="searchEx" method="get">
-                <label for="allExSel">Select Expense Month Statement</label>
-                <select name="yearMonth" id="allExSel">
-                    {%for d in dataDate["monthYear"]%}
-                        <option value="{{dataDate['monthYear'][d]}}">{{d}}</option>
-                    {%endfor%}
-                </select>
-                <button>Search</button>
-            </form>
-            <h1 id="expensesHeader"><span>{{dataDate["readDate"]}}</span><span>Statement</span> </h1>
-            <div class="infoCards">
-                <div id="exByCat">
-                    <p class="secTitle">Expenses for the month</p>
-                    <div id="expenseInfo">
-                        <table class="dataTables">
-                            <thead>
-                                <tr><th colspan="3">{{dataDate.readDate}}</th></tr>
-                                <tr>
-                                    <th>Expense Category</th>
-                                    <th>Expense Amount</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {%for d in exData%}
-                                    <tr>
-                                        <td><span class="cattName">{{d["catName"]}}</span></td>
-                                        <td>$<span class="sumExAmount fixDec">{{d["exAmount"]}}</span></td>
-                                    </tr>
-                                {%endfor%}
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                        <canvas id="expenseChart">
-    
-                        </canvas>
-                    </div>
-                </div>
-                <div id="moreInfo">
-                    <p class="secTitle">Expenses by month</p>
-                    <div class="monthExpense">
-                        <table class="dataTables">
-                            <thead>
-                                <tr>
-                                    <th colspan="2">Monthly Expenses</th>
-                                </tr>
-                                <tr>
-                                    <th>Month</th>
-                                    <th>Amount</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {%for d in monthGEx%}
-                                    <tr>
-                                        <td><span class="barTitles">{{d["dateInfo"]}}</span></td>
-                                        <td>$<span class="barSumTotal fixDec">{{d["sumTotal"]}}</span></td>
-                                    </tr>
-                                {%endfor%}
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                        <canvas id="monthlyBar"></canvas>
-                    </div>
-                </div>
-                <div id="allExpensesCont">
-                    <p class="secTitle">Month Expenses</p>
-                    <div id="allExInfo">
-                        {%for d in allExpense%}
-                            <div class="allCards">
-                                <p class="allDates">{{d["expenseDate"]}} <span class="allExNames">{{d["expenseName"]}}</span></p>
-                                <p class="allStyles">Category: <span class="allCats">{{d["catName"]}}</span></p>
-                                <p class="allStyles"> <span class="amountWord">Amount</span> <span class="allAmounts">${{d["exAmount"]}}</span></p>
-                                <form method="post">
-                                    <button value="{{d['expenseID']}}" name="deleteExpense" id="deleteEx"><img src="{{url_for('static', filename='./images/trash-can.svg')}}" alt="Trash Can Image"></button>
-                                </form>
-                            </div>
-                        {%endfor%}
-                    </div>
-                </div>
-                <button id="expenseExpand">+</button>
-            </div>
-            <div class="infoCards">
-                <div id="budgetData">
-                    <p class="secTitle">Budget for the Month</p>
-                    <div id="budgetInfo">
-                        <table class="dataTables">
-                            <thead>
-                                <tr>
-                                    <th colspan="3">{{dataDate.readDate}}</th>
-                                </tr>
-                                <tr>
-                                    <th>Category Name</th>
-                                    <th>Budget Amount</th>
-                                    <th>Expenses Spent</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {%for d in budgetData%}
-                                    <tr>
-                                        <td><span class="budName">{{d["catName"]}}</span></td>
-                                        <td><span class="budgetAmount">{{d["budgetAmount"]}}</span></td>
-                                        <td><span class="exAmountBud fixDec">{{d["sumAmount"]}}</span></td>
-                                    </tr>
-                                {%endfor%}
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                        <canvas id="savingsChart">
-                        
-                        </canvas>
-                    </div> 
-                </div>
-            </div>
-        </div>
-    </section>
-    <footer>
-        <div class="socials">
-            <a href="https://github.com/Mike1938" target="_"><img src="{{url_for('static', filename='./images/logo-github.svg')}}" alt="GitHub Link"></a>
-            <a href="https://www.linkedin.com/" target="_"><img src="{{url_for('static', filename='./images/logo-linkedin.svg')}}" alt="Linkedin"></a>
-        </div>
-        <div id="otherPages">
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/login">Login</a></li>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.1/chart.min.js" integrity="sha512-Wt1bJGtlnMtGP0dqNFH1xlkLBNpEodaiQ8ZN5JLA5wpc1sUlk/O5uuOMNgvzddzkpvZ9GLyYNa8w2s7rqiTk5Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <link rel="stylesheet" href="{{url_for('static', filename='./css/styles.css')}}">
+        <title>Dashboard</title>
+    </head>
+    <body id="dashboardBody">
+        <nav>
+            <div id="navLinks">
+                <a href="/">Financially Free</a>
                 {%if g.user%}
-                    <li><a href="/Dashboard">DashBoard</a></li>
+                <a href="/dashboard">DashBoard</a>
+                <a href="/auth/logout">Logout</a>
                 {%else%}
-                    <li><a href="/signup">Signup</a></li>
-                {%endif%}
-            </ul>
-        </div>
-        <div class="socials">
-            <a href="https://twitter.com/home" target="_"><img src="{{url_for('static', filename='./images/logo-twitter.svg')}}" alt="Twitter Link"></a>
-            <a href="" target="_"><img src="{{url_for('static', filename='./images/mail-outline.svg')}}" alt="Mail Link"></a>
-        </div>
-        <div id="backToTop">
-            <a href="#top"><button>Back To Top</button></a>
-        </div>
-        <p class="signature">Malsan Inc. 2021</p>
-    </footer>
-    <script src="{{url_for('static', filename= './js/dashboard.js')}}"></script>
-</body>
+                <a href="/auth/login">Login</a>
+                {%endif%}    
+            </div>
+        </nav>
+        <section id="dashboard">
+            <aside id="dashForms">
+                <p id="userName">Welcome {{g.user['fName']}}</p>
+                <div class ="cards" id="expenses">
+                    <p class="formTitles">Monthly Expenses</p>
+                    <p class="amounts" id="expenseAmount">0</p>
+                    <button id="expenseEx" class="plusButton">-</button>
+                    {%if check%}
+                        {%for val in check%}
+                            <p class="error">{{val}}</p>
+                        {%endfor%}
+                    {%endif%}
+                    <form id="dashExpenseForm" method="post" autocomplete="off">
+                        <label for="eTitle">Expense Title</label>
+                        <input name="expenseTitle" id="eTitle" type="text" placeholder="Expense Title">
+                        <label for="cattegory">Expense Category</label>
+                        <select name="cattegory" id="cattegory">
+                            {%for data in catData%}
+                                <option value="{{data['catID']}}">{{data["catName"]}}</option>
+                            {%endfor%}
+                        </select>
+                        <label for="eAmount">Expense Amount</label>
+                        <input name="expenseAmount" id="eAmount" type="number" step=".01" placeholder="Expense Amount">
+                        <label for="eDate">Expense Date</label>
+                        <input name="exepenseDate" id="eDate" type="date">
+                        <button name="expenseSub">Add</button>
+                    </form>
+                </div>
+                <div class="cards" id="savings">
+                    <p class="formTitles">Budget</p>
+                    <p class="amounts" id="budgetsAmount">0</p>
+                    <button id="savingEx" class="plusButton">-</button>
+                    {%if checkBud%}
+                        {%for val in checkBud%}
+                            <p class="error">{{val}}</p>
+                        {%endfor%}
+                    {%endif%}
+                    <form id="savingForm" method="post" autocomplete="off">
+                        <label for="budCatt">Cattegory</label>
+                        <select name="budCatt" id="budCatt">
+                            {%for data in catData%}
+                                <option value="{{data['catID']}}">{{data["catName"]}}</option>
+                            {%endfor%}
+                        </select>
+                        <label for="budAmount">Budget Amount</label>
+                        <input name="budgetAmount" id="budAmount" type="number" step=".01" placeholder="Budget Amount">
+                        <select name="month" id="budgMonth">
+                            <option value="01">January</option>
+                            <option value="02">February</option>
+                            <option value="03">March</option>
+                            <option value="04">April</option>
+                            <option value="05">May</option>
+                            <option value="06">June</option>
+                            <option value="07">July</option>
+                            <option value="08">August</option>
+                            <option value="09">September</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>
+                        </select>
+                        <input name="year" type="number" min="1950" max="2099" step="1" value="2021">
+                        <button name="budgetButt">Add</button>
+                    </form>
+                </div>
+            </aside>
+            <div id="dashInfo">
+                <form id="searchEx" method="get">
+                    <label for="allExSel">Select Expense Month Statement</label>
+                    <select name="yearMonth" id="allExSel">
+                        {%for d in dataDate["monthYear"]%}
+                            <option value="{{dataDate['monthYear'][d]}}">{{d}}</option>
+                        {%endfor%}
+                    </select>
+                    <button>Search</button>
+                </form>
+                <h1 id="expensesHeader"><span>{{dataDate["readDate"]}}</span><span>Statement</span> </h1>
+                <div class="infoCards">
+                    <div id="exByCat">
+                        <p class="secTitle">Expenses for the month</p>
+                        <div id="expenseInfo">
+                            <table class="dataTables">
+                                <thead>
+                                    <tr><th colspan="3">{{dataDate.readDate}}</th></tr>
+                                    <tr>
+                                        <th>Expense Category</th>
+                                        <th>Expense Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {%for d in exData%}
+                                        <tr>
+                                            <td><span class="cattName">{{d["catName"]}}</span></td>
+                                            <td>$<span class="sumExAmount fixDec">{{d["exAmount"]}}</span></td>
+                                        </tr>
+                                    {%endfor%}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <canvas id="expenseChart">
+        
+                            </canvas>
+                        </div>
+                    </div>
+                    <div id="moreInfo">
+                        <p class="secTitle">Expenses by month</p>
+                        <div class="monthExpense">
+                            <table class="dataTables">
+                                <thead>
+                                    <tr>
+                                        <th colspan="2">Monthly Expenses</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Month</th>
+                                        <th>Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {%for d in monthGEx%}
+                                        <tr>
+                                            <td><span class="barTitles">{{d["dateInfo"]}}</span></td>
+                                            <td>$<span class="barSumTotal fixDec">{{d["sumTotal"]}}</span></td>
+                                        </tr>
+                                    {%endfor%}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <canvas id="monthlyBar"></canvas>
+                        </div>
+                    </div>
+                    <div id="allExpensesCont">
+                        <p class="secTitle">Month Expenses</p>
+                        <div id="allExInfo">
+                            {%for d in allExpense%}
+                                <div class="allCards">
+                                    <p class="allDates">{{d["expenseDate"]}} <span class="allExNames">{{d["expenseName"]}}</span></p>
+                                    <p class="allStyles">Category: <span class="allCats">{{d["catName"]}}</span></p>
+                                    <p class="allStyles"> <span class="amountWord">Amount</span> <span class="allAmounts">${{d["exAmount"]}}</span></p>
+                                    <form method="post">
+                                        <button value="{{d['expenseID']}}" name="deleteExpense" id="deleteEx"><img src="{{url_for('static', filename='./images/trash-can.svg')}}" alt="Trash Can Image"></button>
+                                    </form>
+                                </div>
+                            {%endfor%}
+                        </div>
+                    </div>
+                    <button id="expenseExpand">+</button>
+                </div>
+                <div class="infoCards">
+                    <div id="budgetData">
+                        <p class="secTitle">Budget for the Month</p>
+                        <div id="budgetInfo">
+                            <table class="dataTables">
+                                <thead>
+                                    <tr>
+                                        <th colspan="3">{{dataDate.readDate}}</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Category Name</th>
+                                        <th>Budget Amount</th>
+                                        <th>Expenses Spent</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {%for d in budgetData%}
+                                        <tr>
+                                            <td><span class="budName">{{d["catName"]}}</span></td>
+                                            <td><span class="budgetAmount">{{d["budgetAmount"]}}</span></td>
+                                            <td><span class="exAmountBud fixDec">{{d["sumAmount"]}}</span></td>
+                                        </tr>
+                                    {%endfor%}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <canvas id="budgetChart">
+                            
+                            </canvas>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </section>
+        <footer>
+            <div class="socials">
+                <a href="https://github.com/Mike1938" target="_"><img src="{{url_for('static', filename='./images/logo-github.svg')}}" alt="GitHub Link"></a>
+                <a href="https://www.linkedin.com/" target="_"><img src="{{url_for('static', filename='./images/logo-linkedin.svg')}}" alt="Linkedin"></a>
+            </div>
+            <div id="otherPages">
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    {%if g.user%}
+                        <li><a href="/auth/logout">Logout</a></li>
+                        <li><a href="/dashboard">DashBoard</a></li>
+                    {%else%}
+                        <li><a href="/auth/login">Login</a></li>
+                        <li><a href="/signup">Signup</a></li>
+                    {%endif%}
+                </ul>
+            </div>
+            <div class="socials">
+                <a href="https://twitter.com/home" target="_"><img src="{{url_for('static', filename='./images/logo-twitter.svg')}}" alt="Twitter Link"></a>
+                <a href="" target="_"><img src="{{url_for('static', filename='./images/mail-outline.svg')}}" alt="Mail Link"></a>
+            </div>
+            <div id="backToTop">
+                <a href="#top"><button>Back To Top</button></a>
+            </div>
+            <p class="signature">Malsan Inc. 2021</p>
+        </footer>
+        <script src="{{url_for('static', filename= './js/dashboard.js')}}"></script>
+    </body>
 </html>
