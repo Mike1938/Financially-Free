@@ -89,8 +89,8 @@ def dashboard():
 
     # ? This will query and get you the budget amount and expense amount for each categories
     budgData = db.execute(
-        "SELECT categories.catName, budgets.budgetAmount, sum(expenses.expenseAmount) as sumAmount, SUBSTR(expenses.expenseDate, 1, 7) AS dateInfo, monthYear FROM budgets INNER JOIN categories ON categories.catID = budgets.catID INNER JOIN expenses on expenses.catID = categories.catID WHERE budgets.userID = ? AND dateInfo = ? AND monthYear = ? GROUP BY categories.catID",
-        (g.user["userId"], searchDate, searchDate,)
+        "SELECT categories.catName, budgets.budgetAmount, sum(expenses.expenseAmount) as sumAmount, SUBSTR(expenses.expenseDate, 1, 7) AS dateInfo, monthYear FROM budgets INNER JOIN categories ON categories.catID = budgets.catID INNER JOIN expenses on expenses.catID = categories.catID WHERE budgets.userID = ? AND expenses.userID = ? AND dateInfo = ? AND monthYear = ? GROUP BY categories.catID",
+        (g.user["userId"], g.user["userId"], searchDate, searchDate,)
     ).fetchall()
 
     # ? function to strip string whitespaces
