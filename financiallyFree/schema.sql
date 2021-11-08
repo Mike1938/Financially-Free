@@ -42,4 +42,4 @@ INSERT INTO categories(catName) VALUES
 ("Housing"), ("Transportation"), ("Food"),
 ("Utilities"), ("Insurance"), ("Car Payment"), ("Medical & Healthcare"),
 ("Personal Spending"), ("Recreation & Entertainment"), ("Miscellaneous"),
-("Saving, Investing & Debt Payments");
+("Saving, Investing & Debt Payments"), ("Groceries"), ("Education");
