@@ -13,10 +13,10 @@
             <div id="navLinks">
                 <a href="/">Financially Free</a>
                 {%if g.user%}
-                <a href="/dashboard">DashBoard</a>
-                <a href="/auth/logout">Logout</a>
+                    <a href="/dashboard">DashBoard</a>
+                    <a href="/auth/logout">Logout</a>
                 {%else%}
-                <a href="/auth/login">Login</a>
+                    <a href="/auth/login">Login</a>
                 {%endif%}       
             </div>
         </nav>
@@ -32,7 +32,7 @@
         </div>
         <section id="aboutApp">
             <div id="headerBox">
-                <h2>Track your expenses to freedom</h2>
+                <h2>Track your Spending for Freedom</h2>
             </div>
             <div id="piChart">
                 <canvas id="expensePi"></canvas>

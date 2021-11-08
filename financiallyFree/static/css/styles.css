@@ -6,6 +6,7 @@ body, html{
     height: 100%;
     position: relative;
 }
+/* * Navbar styles */
 nav{
     width: 100%;
     background-color: #6DA05C;
@@ -167,7 +168,7 @@ nav{
     font-size: 1rem;
     margin-bottom: 0;
 }
-
+/*  * Footer styles */
 footer{
     position: relative;
     display: grid;
@@ -204,7 +205,6 @@ footer ul a{
     border-radius: 8px;
 }
 #otherPages{
-    width: 40%;
     background-color: #fff;
     border-radius: 15px;
     padding: 30px;
@@ -239,6 +239,9 @@ footer ul a{
     background-color: #fff;
     border-radius: 50%;
 }
+
+/* * signUp styles */
+
 #signUp{
     display: flex;
     height: 100%;
@@ -299,6 +302,7 @@ footer ul a{
     background-color: #DEEAD9;
 }
 
+/*  * Dashboard page styles */
 #dashboard{
     display: grid;
     grid-template-columns: 20% 80%;
@@ -655,6 +659,9 @@ footer ul a{
     background-color: #F88989;
     cursor: pointer;
 }
+
+/*  * media queries */
+
 @media(max-width: 1750px){
     #exByCat{
         grid-column: 1/3;
@@ -727,5 +734,16 @@ footer ul a{
     #headerBox{
         grid-column: 1/2;
     }
-
+}
+@media(max-width: 580px){
+    #expensesHeader{
+        font-size: 1.5rem;
+    }
+    #searchEx select{
+        width: 90%;
+    }
+    #searchEx button{
+        width: 40%;
+        margin-top: 15px;
+    }
 }

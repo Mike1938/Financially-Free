@@ -176,11 +176,17 @@ def dashboard():
                 ).fetchone()
                 if  checkBudg:
                     # *This is updating the set budget to the new amount
-                    db.execute(
-                        "UPDATE budgets SET budgetAmount = ? WHERE budgetID =?",
-                        (budgAmount, checkBudg["budgetID"],)
-                    )
-                    db.commit()
+                    try:
+                        db.execute(
+                            "UPDATE budgets SET budgetAmount = ? WHERE budgetID =?",
+                            (budgAmount, checkBudg["budgetID"],)
+                        )
+                        db.commit()
+                    except db.IntegrityError:
+                        print("Error inserting info")
+                    else:
+
+                        return redirect(request.url)
                 else:
                     try:
                         db.execute(
@@ -192,6 +198,7 @@ def dashboard():
                         print("There Was a Problem")
                     else:
                         return redirect(request.url)
+
         # * This is the delete expense section
         if 'deleteExpense' in request.form:
             expenseId = request.form["deleteExpense"]
