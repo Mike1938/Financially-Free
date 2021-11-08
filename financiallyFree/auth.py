@@ -56,7 +56,7 @@ def register():
                 db.commit()
                 
             except db.IntegrityError:
-                error = f"The user {username} is already taken, please try again..."
+                error= [f'The user "{username}" is already taken, please try again...']
             else: 
                 return redirect(url_for("auth.login"))
 
