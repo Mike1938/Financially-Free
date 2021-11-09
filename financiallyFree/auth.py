@@ -27,6 +27,16 @@ def verifyUsers(user, userPass,fName = None, lName = None):
         return error
     else:
         return None
+# * Function to clean the input given by the users of whitespaces or adding first capital letter
+def cleanInput(data, method = "strip"):
+    holdData = None
+    if method == "strip":
+        holdData = data.strip()
+    if method == "all":
+        holdData = data.strip()
+        holdData = holdData.title()
+    return holdData
+        
 
 # ? This is going to register the user to the database, first is going to validate the info given by the users
 # ? Then the database get initialize and the user data get inserted to the database if user already exist an alert will show if not it will be inserted and redirected to the login page
@@ -37,10 +47,10 @@ def register():
         return redirect(url_for("views.dashboard"))
     checkErr = None
     if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        fName = request.form['fName']
-        lName = request.form['lName']
+        username = cleanInput(request.form['username'])
+        password = cleanInput(request.form['password'])
+        fName = cleanInput(request.form['fName'], "all")
+        lName = cleanInput(request.form['lName'], "all")
         regDate = datetime.datetime.now()
         db = get_db()
         error = verifyUsers(username, password, fName, lName)
@@ -68,8 +78,8 @@ def register():
 def login():
     checkErr = None
     if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
+        username = cleanInput(request.form['username'])
+        password = cleanInput(request.form['password'])
         db = get_db()
         error = verifyUsers(username, password)
         if error is None:
